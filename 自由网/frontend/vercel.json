@@ -1,6 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/pages/index.html" }
-  ],
-  "cleanUrls": true
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/pages/index.html",
+      "permanent": false
+    }
+  ]
 }
