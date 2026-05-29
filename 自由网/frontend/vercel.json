@@ -1,9 +1,11 @@
 {
   "rewrites": [
-    { "source": "/",              "destination": "/pages/index.html"          },
-    { "source": "/search",        "destination": "/pages/search.html"         },
-    { "source": "/hotels/junji",      "destination": "/pages/hotels/junji.html"      },
-    { "source": "/hotels/bainnasit",  "destination": "/pages/hotels/bainnasit.html"  },
-    { "source": "/hotels/dongshan",   "destination": "/pages/hotels/dongshan.html"   }
+    { "source": "/assets/(.*)",          "destination": "/assets/$1"                    },
+    { "source": "/hotels/junji",         "destination": "/pages/hotels/junji.html"      },
+    { "source": "/hotels/bainnasit",     "destination": "/pages/hotels/bainnasit.html"  },
+    { "source": "/hotels/dongshan",      "destination": "/pages/hotels/dongshan.html"   },
+    { "source": "/search",               "destination": "/pages/search.html"            },
+    { "source": "/pages/(.*)",           "destination": "/pages/$1"                     },
+    { "source": "/",                     "destination": "/pages/index.html"             }
   ]
 }
