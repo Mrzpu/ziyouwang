@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>威海精选酒店 · 自由网</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#1a6b52;--brand2:#15563f;--brand3:#0f3d2c;
+  --accent:#e8a020;--red:#e84040;
+  --bg:#f7f8fa;--white:#fff;
+  --border:#e8eaed;--border2:#d0d3d8;
+  --ink:#1a1a1a;--mid:#4a4f58;--pale:#8a909a;--faint:#b8bcc4;
+  --tag-bg:#f0f4f0;--tag-color:#1a6b52;
+  --sans:'Noto Sans SC',sans-serif;--serif:'Noto Serif SC',serif;
+  --r:10px;--r2:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:64px;background:var(--white);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:16px;
+}
+.logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.logo-icon{width:34px;height:34px;background:var(--brand);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;font-family:var(--serif);margin-right:7px;flex-shrink:0}
+.logo-name{font-size:18px;font-weight:700;color:var(--brand)}
+.logo-sub{font-size:11px;color:var(--pale);margin-left:5px;align-self:flex-end;margin-bottom:1px}
+
+/* nav inline search (same style as homepage) */
+.nav-srch{
+  flex:1;max-width:340px;margin-right:auto;
+  display:flex;align-items:center;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:18px;padding:0 12px;height:34px;gap:7px;
+  transition:border-color .2s;
+}
+.nav-srch:focus-within{border-color:var(--brand)}
+.nav-srch input{border:none;background:transparent;font-family:var(--sans);font-size:13px;color:var(--ink);outline:none;flex:1}
+.nav-srch svg{width:13px;height:13px;stroke:var(--pale);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+
+nav ul{display:flex;gap:2px;list-style:none}
+nav ul a{padding:7px 14px;border-radius:6px;font-size:14px;color:var(--mid);text-decoration:none;transition:all .15s;white-space:nowrap}
+nav ul a:hover{background:var(--tag-bg);color:var(--brand)}
+nav ul a.active{color:var(--brand);font-weight:500}
+
+/* account */
+.nav-right{display:flex;align-items:center}
+.nav-account{position:relative}
+.na-trigger{display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 11px;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:var(--sans);font-size:13px;color:var(--mid);transition:all .2s}
+.na-trigger:hover{border-color:var(--brand);color:var(--brand)}
+.na-avatar{width:22px;height:22px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:500;flex-shrink:0}
+.na-arrow{font-size:8px;color:var(--pale);transition:transform .2s}
+.nav-account.open .na-arrow{transform:rotate(180deg)}
+.na-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);min-width:160px;box-shadow:0 8px 28px rgba(0,0,0,.1);opacity:0;pointer-events:none;transform:translateY(-6px);transition:all .2s;z-index:300;overflow:hidden}
+.nav-account.open .na-dropdown{opacity:1;pointer-events:all;transform:translateY(0)}
+.na-item{display:flex;align-items:center;gap:9px;padding:10px 14px;font-size:13px;color:var(--mid);text-decoration:none;transition:background .15s}
+.na-item:hover{background:var(--bg);color:var(--brand)}
+.na-ico{font-size:14px;width:16px;text-align:center}
+.na-sep{height:1px;background:var(--border)}
+.na-join{display:block;padding:10px 14px;text-align:center;background:var(--brand);color:#fff;font-size:13px;font-weight:500;text-decoration:none;transition:background .2s}
+.na-join:hover{background:var(--brand2)}
+
+/* ── SEARCH HERO ── */
+.search-hero{
+  margin-top:64px;background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:20px 24px 0;
+}
+.sh-top{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.sh-title{font-size:22px;font-weight:700;color:var(--ink)}
+.sh-sub{font-size:15px;color:var(--pale);margin-top:2px}
+.sh-back{font-size:13px;color:var(--brand);text-decoration:none;display:flex;align-items:center;gap:4px}
+.sh-back:hover{text-decoration:underline}
+
+/* search bar — white card style matching homepage */
+.sh-bar{
+  min-height:64px;
+  max-width:1200px;margin:0 auto;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r) var(--r) 0 0;
+  display:flex;align-items:stretch;
+  overflow:visible;position:relative;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  height:56px;
+}
+.sh-f{
+  flex:1;padding:0 14px;border-right:1px solid var(--border);
+  cursor:pointer;user-select:none;transition:background .15s;
+  display:flex;flex-direction:column;justify-content:center;min-width:0;
+}
+.sh-f:hover,.sh-f.open{background:rgba(26,107,82,.04)}
+.sh-fl{font-size:11px;color:var(--pale);font-weight:500;letter-spacing:.02em;margin-bottom:3px}
+.sh-fv{font-size:15px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-fv.ph{color:var(--faint);font-weight:400}
+.sh-sel{border:none;background:transparent;font-family:var(--sans);font-size:15px;font-weight:500;color:var(--ink);outline:none;width:100%;cursor:pointer;-webkit-appearance:none;appearance:none}
+/* dates merged */
+.sh-dates{flex:2;display:flex;align-items:stretch;border-right:1px solid var(--border);position:relative;overflow:visible}
+.sh-dhalf{flex:1;padding:0 18px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:background .15s}
+.sh-dhalf:hover,.sh-dhalf.open{background:rgba(26,107,82,.04)}
+.sh-dsep{flex:0 0 48px;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);background:rgba(26,107,82,.02)}
+.sh-nights{font-size:11px;color:var(--brand);font-weight:500}
+/* guests */
+.sh-guests{flex:0 0 152px;padding:0 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:background .15s;position:relative;user-select:none}
+.sh-guests:hover,.sh-guests.open{background:rgba(26,107,82,.04)}
+/* search btn */
+.sh-sbtn{
+  font-size:15px;
+  flex:0 0 110px;background:var(--brand);color:#fff;border:none;
+  font-family:var(--sans);font-size:15px;font-weight:500;
+  cursor:pointer;transition:background .2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  border-radius:0 var(--r) 0 0;
+}
+.sh-sbtn:hover{background:var(--brand2)}
+.sh-sbtn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+
+/* ── FILTER TAB BAR ── */
+.filter-bar{
+  max-width:1200px;margin:0 auto;
+  background:var(--bg);border:1px solid var(--border);border-top:none;
+  border-radius:0 0 var(--r) var(--r);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  font-size:13px;
+}
+.fb-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fb-label{color:var(--pale);font-size:13px;white-space:nowrap}
+.fb-chip{
+  padding:6px 16px;
+  padding:4px 12px;border-radius:20px;border:1px solid var(--border);
+  background:var(--white);color:var(--mid);cursor:pointer;
+  font-size:13px;transition:all .15s;white-space:nowrap;
+  display:flex;align-items:center;gap:4px;
+}
+.fb-chip:hover,.fb-chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.fb-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.fb-price{display:flex;align-items:center;gap:6px}
+.fb-price-input{
+  width:72px;height:28px;border:1px solid var(--border);background:var(--white);
+  padding:0 8px;font-family:var(--sans);font-size:12px;color:var(--ink);
+  outline:none;border-radius:4px;transition:border-color .2s;
+}
+.fb-price-input:focus{border-color:var(--brand)}
+.fb-apply{
+  padding:6px 18px;font-size:13px;
+  padding:4px 14px;background:var(--brand);color:#fff;border:none;
+  border-radius:20px;font-family:var(--sans);font-size:12px;font-weight:500;
+  cursor:pointer;transition:background .2s;
+}
+.fb-apply:hover{background:var(--brand2)}
+.fb-reset{
+  padding:4px 12px;background:transparent;color:var(--pale);border:1px solid var(--border);
+  border-radius:20px;font-family:var(--sans);font-size:12px;
+  cursor:pointer;transition:all .2s;
+}
+.fb-reset:hover{border-color:var(--red);color:var(--red)}
+
+/* ── CALENDAR ── */
+.cal-popup{
+  position:absolute;top:calc(100% + 8px);left:0;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:0 16px 48px rgba(0,0,0,.12);
+  z-index:9999;opacity:0;pointer-events:none;
+  transform:translateY(-8px);transition:opacity .2s,transform .2s;width:560px;
+}
+.cal-popup.show{opacity:1;pointer-events:all;transform:translateY(0)}
+.cp-head{padding:12px 18px 8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cp-status{font-size:12px;color:var(--mid)}
+.cp-status b{color:var(--brand);font-weight:500}
+.cp-nt{font-size:12px;color:var(--accent);font-weight:500}
+.cp-months{display:grid;grid-template-columns:1fr 1fr}
+.cp-month{padding:12px 16px 16px}
+.cp-month+.cp-month{border-left:1px solid var(--border)}
+.cp-mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cp-mname{font-size:13px;font-weight:500;color:var(--ink)}
+.cp-nav{width:26px;height:26px;border-radius:50%;background:transparent;border:none;cursor:pointer;font-size:16px;color:var(--pale);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cp-nav:hover:not([disabled]){background:var(--tag-bg);color:var(--brand)}
+.cp-nav[disabled]{opacity:.2;cursor:default;pointer-events:none}
+.cp-dow{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px}
+.cp-dow span{font-size:10px;color:var(--pale);text-align:center;padding:3px 0}
+.cp-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.day{height:34px;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.day::before{content:'';position:absolute;top:2px;bottom:2px;left:0;right:0;background:transparent;pointer-events:none;z-index:0;transition:background .08s}
+.day>span{position:relative;z-index:1;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink);transition:background .08s,color .08s;flex-shrink:0}
+.day.empty,.day.empty::before{background:transparent!important;cursor:default}
+.day.past>span{color:var(--faint)!important;background:transparent!important}
+.day.past{cursor:not-allowed}
+.day.today>span::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--brand)}
+.day:not(.past):not(.empty):not(.sel-start):not(.sel-end):hover>span{background:#e8f4ef}
+.day.in-range::before{background:#e8f4ef}
+.day.in-range>span{color:var(--brand)}
+.day.preview::before{background:rgba(26,107,82,.08)}
+.day.preview>span{color:var(--brand)}
+.day.sel-start>span{background:var(--brand)!important;color:#fff!important}
+.day.sel-start.has-end::before{background:#e8f4ef;left:50%;right:0}
+.day.sel-start.has-preview::before{background:rgba(26,107,82,.08);left:50%;right:0}
+.day.sel-start:not(.has-end):not(.has-preview)::before{background:transparent}
+.day.sel-end>span{background:var(--brand)!important;color:#fff!important}
+.day.sel-end::before{background:#e8f4ef;left:0;right:50%}
+.day.sel-start.today>span::after,.day.sel-end.today>span::after{background:rgba(255,255,255,.8)}
+.cp-foot{padding:8px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cp-clear{font-size:12px;color:var(--pale);background:none;border:none;cursor:pointer;font-family:var(--sans);text-decoration:underline}
+.cp-clear:hover{color:var(--red)}
+.cp-confirm{background:var(--brand);color:#fff;border:none;padding:7px 18px;font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;border-radius:var(--r2);transition:background .2s}
+.cp-confirm:hover{background:var(--brand2)}
+
+/* ── GUESTS POPUP ── */
+.guests-popup{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:0 16px 48px rgba(0,0,0,.12);z-index:9999;
+  opacity:0;pointer-events:none;transform:translateY(-8px);
+  transition:opacity .2s,transform .2s;width:250px;padding:14px 18px;
+}
+.guests-popup.show{opacity:1;pointer-events:all;transform:translateY(0)}
+.gp-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.gp-row:last-of-type{border-bottom:none}
+.gp-label{font-size:13px;font-weight:500;color:var(--ink)}
+.gp-sub{font-size:11px;color:var(--pale)}
+.gp-ctrl{display:flex;align-items:center;gap:9px}
+.gp-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--white);font-size:15px;color:var(--mid);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.gp-btn:hover:not([disabled]){border-color:var(--brand);color:var(--brand);background:#e8f4ef}
+.gp-btn[disabled]{opacity:.25;cursor:default}
+.gp-num{font-size:14px;font-weight:500;color:var(--ink);min-width:16px;text-align:center}
+.gp-ok{width:100%;margin-top:12px;padding:8px;background:var(--brand);color:#fff;border:none;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--r2);transition:background .2s}
+.gp-ok:hover{background:var(--brand2)}
+
+/* ── RESULTS ── */
+.results{max-width:1360px;margin:28px auto;padding:0 40px;display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+
+/* (sidebar removed) */
+
+/* results column */
+.res-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.res-count{font-size:15px;color:var(--mid)}
+.res-count b{color:var(--ink);font-weight:600}
+.res-sort{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--mid)}
+.res-sort select{border:1px solid var(--border);background:var(--white);padding:5px 10px;font-family:var(--sans);font-size:13px;color:var(--ink);outline:none;border-radius:var(--r2)}
+
+/* active tags */
+.active-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.af-tag{display:flex;align-items:center;gap:4px;background:#e8f4ef;color:var(--brand);font-size:13px;padding:4px 12px;border-radius:20px}
+.af-tag button{background:none;border:none;cursor:pointer;color:var(--brand);font-size:13px;line-height:1;padding:0;margin-left:2px}
+.af-tag button:hover{color:var(--red)}
+
+/* hotel list */
+.hotel-list{display:flex;flex-direction:column;gap:16px}
+.hl-card{
+  min-height:160px;
+  display:grid;grid-template-columns:200px 1fr auto;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;
+  text-decoration:none;
+}
+.hl-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.09);transform:translateY(-1px)}
+.hl-card.hidden{display:none}
+.hl-img{height:100%;min-height:200px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden;}
+.hl-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;}
+.hl-badge{position:absolute;top:8px;left:8px;font-size:10px;font-weight:500;padding:3px 9px;border-radius:4px}
+.hl-badge.sel{background:rgba(26,107,82,.9);color:#fff}
+.hl-badge.mem{background:rgba(232,160,32,.9);color:#fff}
+.hl-body{padding:20px 24px;display:flex;flex-direction:column;justify-content:center}
+.hl-lv{font-size:12px;color:var(--brand);font-weight:500;letter-spacing:.04em;margin-bottom:4px;text-transform:uppercase}
+.hl-name{font-size:19px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.hl-loc{font-size:13px;color:var(--pale);margin-bottom:8px}
+.hl-stars{color:#e8a020;font-size:14px;letter-spacing:1px;margin-bottom:7px}
+.hl-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.hlt{font-size:12px;color:var(--mid);border:1px solid var(--border);padding:2px 8px;border-radius:4px;background:var(--bg)}
+.hl-rating{display:flex;align-items:center;gap:6px}
+.hlr-score{font-size:17px;font-weight:700;color:var(--brand)}
+.hlr-label{font-size:13px;color:var(--pale)}
+.hl-pricing{
+  min-width:160px;
+  padding:16px 20px;display:flex;flex-direction:column;align-items:flex-end;
+  justify-content:center;gap:3px;border-left:1px solid var(--border);
+  background:var(--bg);min-width:148px;
+}
+.hlp-label{font-size:11px;color:var(--pale);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.hlp-price{font-size:34px;font-weight:700;color:var(--red)}
+.hlp-price sub{font-size:12px;font-weight:400}
+.hlp-cmp{font-size:13px;color:var(--pale);text-align:right}
+.hlp-cmp s{color:var(--faint)}
+.hlp-save{font-size:12px;color:var(--brand);background:#e8f4ef;padding:2px 8px;border-radius:20px;font-weight:500}
+.hlp-btn{
+  font-size:13px;padding:10px 20px;
+  margin-top:8px;padding:8px 18px;background:var(--brand);color:#fff;
+  border:none;font-family:var(--sans);font-size:12px;font-weight:500;
+  cursor:pointer;border-radius:var(--r2);transition:background .2s;
+}
+.hlp-btn:hover{background:var(--brand2)}
+
+/* no results */
+.no-results{text-align:center;padding:60px 20px;display:none}
+.no-results.show{display:block}
+.no-results p{font-size:14px;color:var(--pale);margin:12px 0 20px}
+.no-results button{background:var(--brand);color:#fff;border:none;padding:9px 22px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--r2)}
+
+
+/* ── 高德自定义 Pin 样式 ── */
+.amap-price-pin{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .15s}
+.amap-price-pin:hover,.amap-price-pin.active{transform:scale(1.12)}
+.app-bubble{
+  background:#fff;border:2px solid #1a6b52;border-radius:6px;
+  padding:3px 10px;font-size:12px;font-weight:600;color:#1a6b52;
+  white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  transition:all .15s;
+}
+.amap-price-pin.active .app-bubble{background:#1a6b52;color:#fff}
+.app-tail{width:8px;height:5px;background:#1a6b52;clip-path:polygon(0 0,100% 0,50% 100%)}
+/* 覆盖高德默认信息窗口边距 */
+.amap-info-content{padding:0!important;border-radius:8px!important;overflow:hidden}
+.amap-info-sharp{display:none}
+.map-panel{position:sticky;top:76px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.map-panel-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.map-panel-title{font-size:14px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
+.map-panel-sub{font-size:11px;color:var(--pale)}
+.map-box{height:420px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.map-box::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:36px 36px;opacity:.5}
+.map-box::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(26,107,82,.05) 0%,transparent 70%)}
+.map-placeholder{position:relative;z-index:1;text-align:center;padding:20px}
+.map-ico{font-size:32px;margin-bottom:10px}
+.map-hint{font-size:12px;color:var(--pale);line-height:1.7;max-width:200px}
+.map-hint b{color:var(--brand)}
+.map-api-note{position:absolute;bottom:10px;right:10px;z-index:1;font-size:10px;color:var(--brand);background:rgba(26,107,82,.08);border:1px solid rgba(26,107,82,.15);padding:3px 10px;border-radius:20px;font-weight:500}
+.map-pins{position:absolute;inset:0;z-index:2;pointer-events:none}
+.map-pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:all;cursor:pointer;transition:transform .15s}
+.map-pin:hover,.map-pin.active{transform:translate(-50%,-100%) scale(1.12)}
+.mp-bubble{background:var(--white);border:2px solid var(--brand);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--brand);white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.map-pin.active .mp-bubble{background:var(--brand);color:#fff}
+.mp-tail{width:8px;height:5px;background:var(--brand);clip-path:polygon(0 0,100% 0,50% 100%)}
+.map-selected{padding:12px 16px;border-top:1px solid var(--border);background:var(--bg);display:none}
+.map-selected.show{display:block}
+.ms-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.ms-loc{font-size:11px;color:var(--pale);margin-bottom:5px}
+.ms-row{display:flex;align-items:center;gap:8px}
+.ms-price{font-size:16px;font-weight:700;color:var(--red)}
+.ms-save{font-size:10px;background:#e8f4ef;color:var(--brand);padding:2px 7px;border-radius:20px;font-weight:500}
+@media(max-width:1024px){.results{grid-template-columns:1fr}.map-panel{display:none}}
+
+@media(max-width:860px){
+  nav{padding:0 16px}
+  nav ul{display:none}
+  .results{grid-template-columns:1fr;padding:0 16px}
+  .sidebar{position:static}
+  .hl-card{grid-template-columns:110px 1fr}
+  .hl-pricing{display:none}
+  .sh-bar{height:auto;flex-wrap:wrap}
+  .sh-f,.sh-dhalf,.sh-guests{border-right:none;border-bottom:1px solid var(--border);height:48px}
+  .sh-sbtn{border-radius:0 0 var(--r) var(--r);height:44px;width:100%}
+}
+
+html { font-size: 18px; zoom: 1.12; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="../index.html">
+    <div class="logo-icon">自</div>
+    <span class="logo-name">自由网</span>
+    <span class="logo-sub">精选酒店</span>
+  </a>
+  <div class="nav-srch">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    <input type="text" placeholder="搜索目的地、酒店名称…">
+  </div>
+  <ul>
+    <li><a href="../search.html" class="active">精选酒店</a></li>
+    <li><a href="../index.html#how">预订流程</a></li>
+    <li><a href="../index.html#member">会员权益</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-account" id="navAccount">
+      <button class="na-trigger" onclick="toggleAccount()">
+        <div class="na-avatar">客</div>
+        <span>我的账户</span>
+        <span class="na-arrow">▾</span>
+      </button>
+      <div class="na-dropdown">
+        <a href="#" class="na-item"><span class="na-ico">📋</span>我的订单</a>
+        <a href="../index.html#member" class="na-item"><span class="na-ico">⭐</span>会员权益</a>
+        <a href="#" class="na-item"><span class="na-ico">👤</span>账户设置</a>
+        <a href="#" class="na-item"><span class="na-ico">💬</span>联系客服</a>
+        <div class="na-sep"></div>
+        <a href="#" class="na-item" style="color:var(--pale)"><span class="na-ico">↩</span>退出登录</a>
+        <a href="../index.html#member" class="na-join">加入会员</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- SEARCH HERO -->
+<div class="search-hero">
+  <div class="sh-top">
+    <div>
+      <div class="sh-title" id="heroTitle">威海精选酒店</div>
+      <div class="sh-sub" id="heroSub">共 8 家精选酒店 · 均已通过自由网品质筛选</div>
+    </div>
+    <a href="../index.html" class="sh-back">← 返回首页</a>
+  </div>
+
+  <!-- search bar -->
+  <div class="sh-bar" id="shSearch">
+    <!-- 省份 -->
+    <div class="sh-f" style="flex:0 0 90px">
+      <div class="sh-fl">省份</div>
+      <select class="sh-sel" id="selProvince" onchange="updateCities()">
+        <option value="sd">山东省</option>
+        <option value="bj">北京市</option>
+        <option value="sh">上海市</option>
+        <option value="gd">广东省</option>
+        <option value="zj">浙江省</option>
+      </select>
+    </div>
+    <!-- 城市 -->
+    <div class="sh-f" style="flex:0 0 90px">
+      <div class="sh-fl">城市</div>
+      <select class="sh-sel" id="selCity">
+        <option>威海</option><option>青岛</option><option>烟台</option>
+        <option>泰安</option><option>济南</option>
+      </select>
+    </div>
+    <!-- 日期 -->
+    <div class="sh-dates" id="shDates">
+      <div class="sh-dhalf" id="shSfIn" onclick="sOpenCal()">
+        <div class="sh-fl">入住</div>
+        <div class="sh-fv ph" id="sDIn">选择日期</div>
+      </div>
+      <div class="sh-dsep"><span class="sh-nights" id="shNightsLabel">—</span></div>
+      <div class="sh-dhalf" id="shSfOut" onclick="sOpenCal()">
+        <div class="sh-fl">退房</div>
+        <div class="sh-fv ph" id="sDOut">选择日期</div>
+      </div>
+      <!-- calendar -->
+      <div class="cal-popup" id="shCal">
+        <div class="cp-head"><span class="cp-status" id="sCpSt">请点击选择<b>入住日期</b></span><span class="cp-nt" id="sCpN"></span></div>
+        <div class="cp-months"><div class="cp-month" id="sML"></div><div class="cp-month" id="sMR"></div></div>
+        <div class="cp-foot"><button class="cp-clear" onclick="sClearAll()">清除日期</button><button class="cp-confirm" onclick="sCloseCal()">确认</button></div>
+      </div>
+    </div>
+    <!-- 人数 -->
+    <div class="sh-guests" id="shGuests" onclick="toggleGuests()">
+      <div class="sh-fl">房间及住客</div>
+      <div class="sh-fv"><span id="guestLabel">1间 · 1成人</span> <span style="font-size:9px;color:var(--pale)">▾</span></div>
+      <div class="guests-popup" id="guestPopup">
+        <div class="gp-row"><div><div class="gp-label">房间</div></div><div class="gp-ctrl"><button class="gp-btn" onclick="adjGuest(event,'rooms',-1)">−</button><span class="gp-num" id="gRooms">1</span><button class="gp-btn" onclick="adjGuest(event,'rooms',1)">+</button></div></div>
+        <div class="gp-row"><div><div class="gp-label">成人</div><div class="gp-sub">18岁及以上</div></div><div class="gp-ctrl"><button class="gp-btn" onclick="adjGuest(event,'adults',-1)">−</button><span class="gp-num" id="gAdults">1</span><button class="gp-btn" onclick="adjGuest(event,'adults',1)">+</button></div></div>
+        <div class="gp-row"><div><div class="gp-label">儿童</div><div class="gp-sub">0–17岁</div></div><div class="gp-ctrl"><button class="gp-btn" onclick="adjGuest(event,'children',-1)">−</button><span class="gp-num" id="gChildren">0</span><button class="gp-btn" onclick="adjGuest(event,'children',1)">+</button></div></div>
+        <button class="gp-ok" onclick="closeGuests(event)">确定</button>
+      </div>
+    </div>
+    <!-- 搜索按钮 -->
+    <button class="sh-sbtn">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      搜索
+    </button>
+  </div>
+
+  <!-- filter tab bar -->
+  <div class="filter-bar">
+    <div class="fb-group">
+      <span class="fb-label">价格</span>
+      <div class="fb-price">
+        <input class="fb-price-input" id="priceMin" type="number" placeholder="最低">
+        <span class="price-sep2">—</span>
+        <input class="fb-price-input" id="priceMax" type="number" placeholder="最高">
+      </div>
+    </div>
+    <div class="fb-sep"></div>
+    <div class="fb-group">
+      <span class="fb-label">星级</span>
+      <label class="fb-chip"><input type="checkbox" id="f5" value="5" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 五星</label>
+      <label class="fb-chip"><input type="checkbox" id="f4" value="4" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 四星</label>
+      <label class="fb-chip"><input type="checkbox" id="f3" value="3" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 三星</label>
+    </div>
+    <div class="fb-sep"></div>
+    <div class="fb-group">
+      <span class="fb-label">特色</span>
+      <label class="fb-chip"><input type="checkbox" id="fsea" value="海景" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 海景</label>
+      <label class="fb-chip"><input type="checkbox" id="fbkf" value="早餐" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 含早餐</label>
+      <label class="fb-chip"><input type="checkbox" id="fpark" value="停车" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 免费停车</label>
+      <label class="fb-chip"><input type="checkbox" id="fpool" value="泳池" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> 游泳池</label>
+    </div>
+    <div class="fb-sep"></div>
+    <div class="fb-group">
+      <label class="fb-chip"><input type="checkbox" id="fmem" value="会员" style="display:none" onchange="this.closest('.fb-chip').classList.toggle('on',this.checked)"> ⭐ 会员特价</label>
+    </div>
+    <button class="fb-apply" onclick="applyFilters()">应用筛选</button>
+    <button class="fb-reset" onclick="resetFilters()">重置</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results">
+  <!-- results column -->
+  <div>
+    <div class="res-head">
+      <div class="res-count" id="rhCount">威海 · <b>8 家</b>精选酒店</div>
+      <div class="res-sort">排序：
+        <select id="sortSelect" onchange="applyFilters()">
+          <option value="rec">推荐优先</option>
+          <option value="asc">价格从低到高</option>
+          <option value="desc">价格从高到低</option>
+          <option value="save">省钱最多</option>
+          <option value="rate">评分最高</option>
+        </select>
+      </div>
+    </div>
+    <div class="active-tags" id="activeTags"></div>
+    <div class="hotel-list" id="hotelList"></div>
+    <div class="no-results" id="noResults">
+      <div style="font-size:36px">🔍</div>
+      <p>没有符合条件的酒店，试试调整筛选条件</p>
+      <button onclick="resetFilters()">重置全部筛选</button>
+    </div>
+  </div>
+
+  <!-- MAP PANEL -->
+  <div class="map-panel" id="mapPanel">
+    <div class="map-panel-head">
+      <div class="map-panel-title">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        酒店位置地图
+      </div>
+      <span class="map-panel-sub">点击酒店卡片定位</span>
+    </div>
+    <!-- 高德地图容器 -->
+    <div id="amapContainer" style="height:420px;width:100%"></div>
+    <div class="map-selected" id="mapSelected">
+      <div class="ms-name" id="msName">—</div>
+      <div class="ms-loc" id="msLoc">—</div>
+      <div class="ms-row">
+        <span class="ms-price" id="msPrice">—</span>
+        <span class="ms-save" id="msSave">—</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── HOTEL DATA ──
+const HOTELS=[
+  {id:1,name:'君季L·DESIGN酒店',stars:3,price:88,compare:104,badge:'sel',badgeText:'精选推荐',
+   level:'设计师酒店 · 海景 · 市中心',loc:'📍 环翠区青岛北路9号 · 刘公岛码头步行10分钟',
+   tags:['迷人海景','免费停车','隔音好','快速入住'],feats:['海景','停车'],
+   rating:4.6,reviews:1238,bg:'linear-gradient(155deg,#1b3d54,#0f2535)',icon:'🏨',member:false,
+   imgSrc:'../assets/images/hotels/junji/exterior.png', detailPage:'hotels/junji.html'},
+  {id:2,name:'威海百纳瑞汀酒店',stars:4,price:229,compare:270,badge:'sel',badgeText:'精选推荐',
+   level:'四星级 · 海景 · 繁华商圈',loc:'📍 环翠区新威路58号 · 威海广场对面',
+   tags:['迷人海景','顶楼餐厅','儿童乐园','免费健身'],feats:['海景','早餐'],
+   rating:4.8,reviews:6796,bg:'linear-gradient(155deg,#1b3a54,#0f2540)',icon:'🏨',member:false,
+   imgSrc:'../assets/images/hotels/bainnasit/exterior.png', detailPage:'hotels/bainnasit.html'},
+  {id:3,name:'威海东山宾馆',stars:4,price:299,compare:353,badge:'sel',badgeText:'精选推荐',
+   level:'四星级 · 海景 · 依山傍海',loc:'📍 环翠区东山路26号 · 威海湾畔',
+   tags:['海上日出','免费健身','中式餐厅','瑜伽课程'],feats:['海景'],
+   rating:4.8,reviews:2872,bg:'linear-gradient(155deg,#1b3d54,#0f2035)',
+   icon:'🏨',member:false,imgSrc:'../assets/images/hotels/dongshan/exterior.png',detailPage:'hotels/dongshan.html'},
+  {id:4,name:'威海海湾精品酒店',stars:3,price:168,compare:210,badge:'sel',badgeText:'精选推荐',
+   level:'三星级 · 海景 · 精品',loc:'📍 环翠区近码头 · 步行 5 分钟',
+   tags:['直面海景','早餐可选'],feats:['海景'],
+   rating:8.6,reviews:298,bg:'linear-gradient(155deg,#1b4f6e,#0f3048)',icon:'⛵',member:false, detailPage:'#'},
+  {id:5,name:'威海悦海温泉度假酒店',stars:4,price:388,compare:490,badge:'mem',badgeText:'会员特价',
+   level:'四星级 · 温泉 · 度假',loc:'📍 荣成市石岛湾 · 含室内温泉',
+   tags:['室内温泉','游泳池','含早餐','免费停车'],feats:['早餐','停车','泳池'],
+   rating:9.1,reviews:521,bg:'linear-gradient(155deg,#3a2d4e,#251d35)',icon:'♨️',member:true, detailPage:'#'},
+  {id:6,name:'威海海景精选商务酒店',stars:3,price:138,compare:178,badge:'sel',badgeText:'高性价比',
+   level:'三星级 · 商务 · 市中心',loc:'📍 环翠区文化路 · 近商圈',
+   tags:['含早餐','免费停车'],feats:['早餐','停车'],
+   rating:8.4,reviews:187,bg:'linear-gradient(155deg,#2a3a28,#1a2818)',icon:'🏢',member:false, detailPage:'#'},
+  {id:7,name:'威海半岛蓝调海景酒店',stars:4,price:318,compare:408,badge:'mem',badgeText:'会员特价',
+   level:'四星级 · 海景 · 度假',loc:'📍 经区海滨路 · 一线海景',
+   tags:['直面海景','游泳池','含早餐'],feats:['海景','泳池','早餐'],
+   rating:8.9,reviews:376,bg:'linear-gradient(155deg,#1a3d5e,#0f2540)',icon:'🌊',member:true, detailPage:'#'},
+  {id:8,name:'威海翡翠湾精品民宿',stars:3,price:198,compare:258,badge:'sel',badgeText:'精选推荐',
+   level:'精品民宿 · 海湾 · 特色',loc:'📍 荣成翡翠湾 · 私人海湾景观',
+   tags:['私人海景','含早餐'],feats:['海景','早餐'],
+   rating:9.3,reviews:142,bg:'linear-gradient(155deg,#2d4a3e,#1a2e28)',icon:'🏡',member:false, detailPage:'#'}
+];
+
+function renderCard(h){
+  const save=h.compare-h.price;
+  const imgContent = h.imgSrc
+    ? `<img src="${h.imgSrc}" style="width:100%;height:100%;object-fit:cover" alt="${h.name}">`
+    : `<span style="font-size:44px">${h.icon}</span>`;
+  const hasDetail = h.detailPage && h.detailPage !== '#';
+  return `<a href="${hasDetail ? h.detailPage : '#'}" class="hl-card" id="hcard-${h.id}"
+    data-stars="${h.stars}" data-price="${h.price}" data-feats="${h.feats.join(',')}"
+    data-member="${h.member}" data-save="${save}" data-rating="${h.rating}"
+    data-detail="${h.detailPage||'#'}">
+    <div class="hl-img" style="background:${h.bg}">${imgContent}
+      <span class="hl-badge ${h.badge}">${h.badgeText}</span>
+      ${!hasDetail ? '<span style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:rgba(255,255,255,.75);font-size:9px;padding:2px 8px;border-radius:20px">详情页制作中</span>' : ''}
+    </div>
+    <div class="hl-body">
+      <div class="hl-lv">${h.level}</div>
+      <div class="hl-name">${h.name}</div>
+      <div class="hl-loc">${h.loc}</div>
+      <div class="hl-stars">${'★'.repeat(h.stars)}</div>
+      <div class="hl-tags">${h.tags.map(t=>`<span class="hlt">${t}</span>`).join('')}</div>
+      <div class="hl-rating"><span class="hlr-score">${h.rating}</span><span class="hlr-label">极好 · ${h.reviews}条评价</span></div>
+    </div>
+    <div class="hl-pricing">
+      <div class="hlp-label">自由网会员价</div>
+      <div class="hlp-price"><sub>¥</sub>${h.price}</div>
+      <div class="hlp-cmp">携程 <s>¥${h.compare}</s></div>
+      <span class="hlp-save">省 ¥${save}</span>
+      <button class="hlp-btn">查看详情</button>
+    </div>
+  </a>`;
+}
+document.getElementById('hotelList').innerHTML=HOTELS.map(renderCard).join('');
+
+// sync topbar chip visual state only
+
+function applyFilters(){
+  const minP=parseFloat(document.getElementById('priceMin').value)||0;
+  const maxP=parseFloat(document.getElementById('priceMax').value)||Infinity;
+  const starChecked=['f5','f4','f3'].filter(i=>document.getElementById(i).checked).map(i=>parseInt(document.getElementById(i).value));
+  const featMap={fsea:'海景',fbkf:'早餐',fpark:'停车',fpool:'泳池'};
+  const featChecked=Object.entries(featMap).filter(([i])=>document.getElementById(i).checked).map(([,v])=>v);
+  const memberOnly=document.getElementById('fmem').checked;
+  const sort=document.getElementById('sortSelect').value;
+  let visible=0;
+  const cards=Array.from(document.querySelectorAll('.hl-card'));
+  cards.forEach(card=>{
+    const price=parseInt(card.dataset.price),stars=parseInt(card.dataset.stars);
+    const feats=card.dataset.feats.split(','),isMember=card.dataset.member==='true';
+    let show=true;
+    if(price<minP||price>maxP)show=false;
+    if(starChecked.length>0&&!starChecked.includes(stars))show=false;
+    for(const f of featChecked){if(!feats.includes(f)){show=false;break;}}
+    if(memberOnly&&!isMember)show=false;
+    card.classList.toggle('hidden',!show);
+    if(show)visible++;
+  });
+  const list=document.getElementById('hotelList');
+  const vis=cards.filter(c=>!c.classList.contains('hidden'));
+  vis.sort((a,b)=>{
+    if(sort==='asc')return parseInt(a.dataset.price)-parseInt(b.dataset.price);
+    if(sort==='desc')return parseInt(b.dataset.price)-parseInt(a.dataset.price);
+    if(sort==='save')return parseInt(b.dataset.save)-parseInt(a.dataset.save);
+    if(sort==='rate')return parseFloat(b.dataset.rating)-parseFloat(a.dataset.rating);
+    return 0;
+  });
+  vis.forEach(c=>list.appendChild(c));
+  document.getElementById('rhCount').innerHTML=`威海 · <b>${visible} 家</b>符合条件的酒店`;
+  document.getElementById('heroSub').textContent=`找到 ${visible} 家精选酒店 · 均已通过品质筛选`;
+  document.getElementById('noResults').classList.toggle('show',visible===0);
+  renderActiveTags(minP,maxP,starChecked,featChecked,memberOnly);
+}
+
+function renderActiveTags(minP,maxP,stars,feats,member){
+  const w=document.getElementById('activeTags');let h='';
+  if(minP>0||maxP<Infinity){const lo=minP>0?`¥${minP}`:'不限';const hi=maxP<Infinity?`¥${maxP}`:'不限';h+=`<span class="af-tag">价格 ${lo}–${hi}<button onclick="clearPrice()">×</button></span>`;}
+  const sn={5:'五星',4:'四星',3:'三星'};
+  stars.forEach(s=>h+=`<span class="af-tag">${sn[s]}级<button onclick="clearStar(${s})">×</button></span>`);
+  const fn={海景:'海景客房',早餐:'含早餐',停车:'免费停车',泳池:'游泳池'};
+  feats.forEach(f=>h+=`<span class="af-tag">${fn[f]}<button onclick="clearFeat('${f}')">×</button></span>`);
+  if(member)h+=`<span class="af-tag">会员特价<button onclick="clearMember()">×</button></span>`;
+  w.innerHTML=h;
+}
+function clearPrice(){document.getElementById('priceMin').value='';document.getElementById('priceMax').value='';applyFilters();}
+function clearStar(s){const m={5:'f5',4:'f4',3:'f3'};document.getElementById(m[s]).checked=false;document.getElementById(m[s]).closest('.fb-chip').classList.remove('on');applyFilters();}
+function clearFeat(f){const m={海景:'fsea',早餐:'fbkf',停车:'fpark',泳池:'fpool'};document.getElementById(m[f]).checked=false;document.getElementById(m[f]).closest('.fb-chip').classList.remove('on');applyFilters();}
+function clearMember(){document.getElementById('fmem').checked=false;document.getElementById('fmem').closest('.fb-chip').classList.remove('on');applyFilters();}
+function resetFilters(){
+  ['priceMin','priceMax'].forEach(i=>document.getElementById(i).value='');
+  ['f5','f4','f3','fsea','fbkf','fpark','fpool','fmem'].forEach(i=>{
+    document.getElementById(i).checked=false;
+    document.getElementById(i).closest('.fb-chip').classList.remove('on');
+  });
+  document.getElementById('sortSelect').value='rec';
+  const list=document.getElementById('hotelList');
+  HOTELS.forEach(h=>{const c=document.getElementById(`hcard-${h.id}`);if(c){c.classList.remove('hidden');list.appendChild(c);}});
+  document.getElementById('rhCount').innerHTML=`威海 · <b>${HOTELS.length} 家</b>精选酒店`;
+  document.getElementById('heroSub').textContent=`共 ${HOTELS.length} 家精选酒店 · 均已通过品质筛选`;
+  document.getElementById('noResults').classList.remove('show');
+  document.getElementById('activeTags').innerHTML='';
+}
+
+// ── PROVINCE → CITY ──
+const PROV_CITIES={sd:['威海','青岛','烟台','泰安','济南','临沂','潍坊'],bj:['北京'],sh:['上海'],gd:['广州','深圳','珠海','佛山'],zj:['杭州','宁波','温州']};
+function updateCities(){
+  const p=document.getElementById('selProvince').value;
+  const c=document.getElementById('selCity');
+  c.innerHTML=(PROV_CITIES[p]||[]).map(x=>`<option>${x}</option>`).join('');
+}
+
+// ── GUESTS ──
+let gS={rooms:1,adults:1,children:0};
+function toggleGuests(){
+  sCloseCal();
+  const p=document.getElementById('guestPopup'),w=document.getElementById('shGuests');
+  const o=p.classList.contains('show');p.classList.toggle('show',!o);w.classList.toggle('open',!o);
+}
+function closeGuests(e){if(e)e.stopPropagation();document.getElementById('guestPopup').classList.remove('show');document.getElementById('shGuests').classList.remove('open');}
+function adjGuest(e,t,d){
+  e.stopPropagation();
+  const min={rooms:1,adults:1,children:0},max={rooms:9,adults:20,children:10};
+  gS[t]=Math.min(max[t],Math.max(min[t],gS[t]+d));
+  document.getElementById('gRooms').textContent=gS.rooms;
+  document.getElementById('gAdults').textContent=gS.adults;
+  document.getElementById('gChildren').textContent=gS.children;
+  let l=`${gS.rooms}间 · ${gS.adults}成人`;if(gS.children>0)l+=` · ${gS.children}儿童`;
+  document.getElementById('guestLabel').textContent=l;
+}
+
+// ── DATEPICKER ──
+const WD=['日','一','二','三','四','五','六'];
+const MN=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+const sNow=new Date();sNow.setHours(0,0,0,0);
+let sStart=null,sEnd=null,sPhase=0;
+let sLY=sNow.getFullYear(),sLM=sNow.getMonth();
+function sROf(y,m){return m===11?[y+1,0]:[y,m+1]}
+let[sRY,sRM]=sROf(sLY,sLM);
+const sD0=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+const sSame=(a,b)=>a&&b&&a.getTime()===b.getTime();
+const sFmt=d=>d?`${d.getMonth()+1}月${d.getDate()}日`:'';
+const sMkD=(y,m,d)=>sD0(new Date(y,m,d));
+function sOpenCal(){closeGuests(null);document.getElementById('shCal').classList.add('show');document.getElementById('shSfIn').classList.add('open');document.getElementById('shSfOut').classList.add('open');}
+function sCloseCal(){document.getElementById('shCal').classList.remove('show');document.getElementById('shSfIn').classList.remove('open');document.getElementById('shSfOut').classList.remove('open');}
+function sClearAll(){sStart=null;sEnd=null;sPhase=0;sSync();sFullRender();}
+function sSync(){
+  const i=document.getElementById('sDIn'),o=document.getElementById('sDOut'),sep=document.getElementById('shNightsLabel');
+  if(sStart){i.textContent=sFmt(sStart);i.classList.remove('ph');}else{i.textContent='选择日期';i.classList.add('ph');}
+  if(sEnd){o.textContent=sFmt(sEnd);o.classList.remove('ph');}else{o.textContent='选择日期';o.classList.add('ph');}
+  if(sStart&&sEnd){sep.textContent=`${Math.round((sEnd-sStart)/864e5)}晚`;}else if(sStart){sep.textContent='→';}else{sep.textContent='—';}
+  const st=document.getElementById('sCpSt'),n=document.getElementById('sCpN');
+  if(sPhase===0){st.innerHTML='请点击选择<b>入住日期</b>';n.textContent='';}
+  else if(sPhase===1){st.innerHTML=`入住 <b>${sFmt(sStart)}</b> · 请选择<b>退房日期</b>`;n.textContent='';}
+  else{const nt=Math.round((sEnd-sStart)/864e5);st.innerHTML=`<b>${sFmt(sStart)}</b> → <b>${sFmt(sEnd)}</b>`;n.textContent=`共${nt}晚`;}
+}
+function sPickDay(ts){
+  const c=sD0(new Date(ts));if(c<sNow)return;
+  if(sPhase===0||sPhase===2){sStart=c;sEnd=null;sPhase=1;}
+  else{if(sSame(c,sStart)){sStart=null;sPhase=0;}else if(c<sStart){sStart=c;sEnd=null;sPhase=1;}else{sEnd=c;sPhase=2;setTimeout(sCloseCal,350);}}
+  sSync();sFullRender();
+}
+function sHoverDay(ts){if(sPhase!==1)return;sUpdateRange(sD0(new Date(ts)));}
+function sLeaveGrid(){if(sPhase===1)sUpdateRange(null);}
+function sUpdateRange(hov){
+  document.querySelectorAll('#sML .day[data-ts],#sMR .day[data-ts]').forEach(cell=>{
+    const d=sD0(new Date(+cell.dataset.ts));
+    cell.classList.remove('preview','in-range','has-preview','has-end','sel-end');
+    if(sPhase===2&&sStart&&sEnd){if(d>sStart&&d<sEnd)cell.classList.add('in-range');if(sSame(d,sEnd))cell.classList.add('sel-end');if(sSame(d,sStart))cell.classList.add('has-end');}
+    else if(sPhase===1&&sStart&&hov&&hov>sStart){if(d>sStart&&d<hov)cell.classList.add('preview');if(sSame(d,hov))cell.classList.add('preview','sel-end');if(sSame(d,sStart))cell.classList.add('has-preview');}
+    if(sSame(d,sStart)){if(sPhase===2&&sEnd)cell.classList.add('has-end');else if(sPhase===1&&hov&&hov>sStart)cell.classList.add('has-preview');}
+  });
+}
+function sFullRender(){sRenderMonth('sML',sLY,sLM,true);sRenderMonth('sMR',sRY,sRM,false);sUpdateRange(null);}
+function sRenderMonth(id,year,month,isLeft){
+  const wrap=document.getElementById(id);
+  const dim=new Date(year,month+1,0).getDate();const first=new Date(year,month,1).getDay();
+  const[pY,pM]=month===0?[year-1,11]:[year,month-1];
+  const canPrev=pY>sNow.getFullYear()||(pY===sNow.getFullYear()&&pM>=sNow.getMonth());
+  let h=`<div class="cp-mhead">`;
+  if(isLeft){h+=`<button class="cp-nav" onclick="sNav(-1)"${canPrev?'':' disabled'}>‹</button><span class="cp-mname">${year}年 ${MN[month]}</span><span style="width:26px"></span>`;}
+  else{h+=`<span style="width:26px"></span><span class="cp-mname">${year}年 ${MN[month]}</span><button class="cp-nav" onclick="sNav(1)">›</button>`;}
+  h+=`</div><div class="cp-dow">${WD.map(w=>`<span>${w}</span>`).join('')}</div>`;
+  h+=`<div class="cp-grid" onmouseleave="sLeaveGrid()">`;
+  for(let i=0;i<first;i++)h+=`<div class="day empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const dt=sMkD(year,month,d);const ts=dt.getTime();
+    const past=dt<sNow;const tod=sSame(dt,sD0(new Date()));
+    const isSt=sSame(dt,sStart);const isEn=sSame(dt,sEnd);
+    let cls='day';
+    if(past)cls+=' past';if(tod)cls+=' today';if(isSt)cls+=' sel-start';if(isEn)cls+=' sel-end';
+    if(sPhase===2&&sStart&&sEnd&&dt>sStart&&dt<sEnd)cls+=' in-range';
+    if(sPhase===2&&isSt&&sEnd)cls+=' has-end';
+    const ev=past?'':` onclick="sPickDay(${ts})" onmouseenter="sHoverDay(${ts})"`;
+    h+=`<div class="${cls}" data-ts="${ts}"${ev}><span>${d}</span></div>`;
+  }
+  h+=`</div>`;wrap.innerHTML=h;
+}
+function sNav(dir){
+  if(dir===-1){const[pY,pM]=sLM===0?[sLY-1,11]:[sLY,sLM-1];if(pY<sNow.getFullYear()||(pY===sNow.getFullYear()&&pM<sNow.getMonth()))return;sLY=pY;sLM=pM;}
+  else{[sLY,sLM]=sLM===11?[sLY+1,0]:[sLY,sLM+1];}
+  [sRY,sRM]=sROf(sLY,sLM);sFullRender();
+}
+
+// ══════════════════════════════════════════════
+// 高德地图集成
+// ══════════════════════════════════════════════
+
+// ★ 把下面这行的 YOUR_AMAP_KEY 替换成你的高德 Key ★
+const AMAP_KEY = 'YOUR_AMAP_KEY';
+
+// 威海各酒店真实坐标 [经度, 纬度]
+const HOTEL_COORDS = {
+  1: [122.1189, 37.5130],  // 君季L·DESIGN酒店 · 环翠区青岛北路9号
+  2: [122.1165, 37.5115],  // 威海百纳瑞汀酒店 · 环翠区新威路58号
+  3: [122.1089, 37.5080],  // 威海东山宾馆 · 环翠区东山路26号
+  4: [122.1010, 37.5060],  // 威海海湾精品酒店 · 环翠区近码头
+  5: [122.4920, 37.1530],  // 威海悦海温泉度假酒店 · 荣成石岛湾
+  6: [122.1220, 37.5160],  // 威海海景精选商务酒店 · 环翠区文化路
+  7: [122.0880, 37.5010],  // 威海半岛蓝调海景酒店 · 经区海滨路
+  8: [122.5640, 37.1720],  // 威海翡翠湾精品民宿 · 荣成翡翠湾
+};
+
+let amapInstance = null;
+let amapMarkers = {};
+let amapInfoWindow = null;
+
+function initAMap() {
+  if (AMAP_KEY === 'YOUR_AMAP_KEY') {
+    // Key 未填，显示提示
+    document.getElementById('amapContainer').innerHTML = `
+      <div style="height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+           background:#f7f8fa;gap:12px;padding:24px;text-align:center">
+        <div style="font-size:32px">🗺️</div>
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a">地图待接入</div>
+        <div style="font-size:12px;color:#8a909a;line-height:1.7;max-width:220px">
+          请将 search.html 第一行 JS 中的<br>
+          <code style="background:#e8f4ef;color:#1a6b52;padding:2px 6px;border-radius:4px">YOUR_AMAP_KEY</code><br>
+          替换为你的高德地图 API Key
+        </div>
+        <a href="https://console.amap.com" target="_blank"
+           style="font-size:12px;color:#1a6b52;border:1px solid #1a6b52;padding:6px 16px;
+                  border-radius:20px;text-decoration:none;margin-top:4px">
+          去申请 Key →
+        </a>
+      </div>`;
+    // 仍然绑定卡片交互（只做底部信息栏联动）
+    wireCardMapFallback();
+    return;
+  }
+
+  // 动态加载高德地图 JS SDK
+  const script = document.createElement('script');
+  script.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_KEY}&callback=onAmapLoaded`;
+  script.async = true;
+  document.head.appendChild(script);
+}
+
+// 高德 SDK 加载完毕回调
+window.onAmapLoaded = function() {
+  amapInstance = new AMap.Map('amapContainer', {
+    center: [122.12, 37.51],   // 威海市中心
+    zoom: 12,
+    mapStyle: 'amap://styles/whitesmoke',
+  });
+
+  // 为每家酒店添加自定义标记
+  HOTELS.forEach(h => {
+    const coords = HOTEL_COORDS[h.id];
+    if (!coords) return;
+
+    // 自定义内容标记（价格气泡）
+    const marker = new AMap.Marker({
+      position: new AMap.LngLat(coords[0], coords[1]),
+      content: `<div class="amap-price-pin" id="apin-${h.id}">
+        <div class="app-bubble">¥${h.price}</div>
+        <div class="app-tail"></div>
+      </div>`,
+      anchor: 'bottom-center',
+      zIndex: 10,
+    });
+
+    marker.on('click', () => selectHotel(h.id));
+    marker.setMap(amapInstance);
+    amapMarkers[h.id] = marker;
+  });
+
+  // 信息窗口
+  amapInfoWindow = new AMap.InfoWindow({
+    offset: new AMap.Pixel(0, -40),
+    closeWhenClickMap: true,
+  });
+
+  wireCardMap();
+};
+
+function selectHotel(id) {
+  const h = HOTELS.find(x => x.id === id);
+  if (!h) return;
+
+  // 高亮卡片
+  document.querySelectorAll('.hl-card').forEach(c => c.classList.remove('map-active'));
+  const card = document.getElementById(`hcard-${id}`);
+  if (card) { card.classList.add('map-active'); card.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+
+  // 高亮地图标记
+  Object.keys(amapMarkers).forEach(k => {
+    const el = document.getElementById(`apin-${k}`);
+    if (el) el.classList.remove('active');
+  });
+  const pinEl = document.getElementById(`apin-${id}`);
+  if (pinEl) pinEl.classList.add('active');
+
+  // 地图飞到该酒店
+  if (amapInstance && HOTEL_COORDS[id]) {
+    amapInstance.setZoomAndCenter(14, HOTEL_COORDS[id], false, 400);
+  }
+
+  // 信息窗口
+  if (amapInfoWindow && amapInstance && HOTEL_COORDS[id]) {
+    const save = h.compare - h.price;
+    amapInfoWindow.setContent(`
+      <div style="padding:10px 14px;min-width:180px">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px">${h.name}</div>
+        <div style="font-size:11px;color:#8a909a;margin-bottom:6px">${h.loc.replace('📍 ','')}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:16px;font-weight:700;color:#e84040">¥${h.price}</span>
+          <span style="font-size:10px;background:#e8f4ef;color:#1a6b52;padding:2px 7px;border-radius:20px;font-weight:500">省¥${save}</span>
+        </div>
+      </div>`);
+    amapInfoWindow.open(amapInstance, HOTEL_COORDS[id]);
+  }
+
+  // 底部信息栏
+  updateMapSelected(h);
+}
+
+function updateMapSelected(h) {
+  const sel = document.getElementById('mapSelected');
+  sel.classList.add('show');
+  document.getElementById('msName').textContent = h.name;
+  document.getElementById('msLoc').textContent = h.loc;
+  document.getElementById('msPrice').textContent = `¥${h.price} 起`;
+  document.getElementById('msSave').textContent = `省 ¥${h.compare - h.price}`;
+}
+
+// 鼠标悬停卡片 → pin高亮（有真实地图时）
+function wireCardMap() {
+  document.querySelectorAll('.hl-card').forEach(card => {
+    const id = parseInt(card.id.replace('hcard-', ''));
+    card.addEventListener('mouseenter', () => {
+      Object.keys(amapMarkers).forEach(k => {
+        const el = document.getElementById(`apin-${k}`);
+        if (el) el.classList.remove('active');
+      });
+      const el = document.getElementById(`apin-${id}`);
+      if (el) el.classList.add('active');
+    });
+    card.addEventListener('click', () => selectHotel(id));
+  });
+}
+
+// 无地图时的降级绑定（仅底部信息栏）
+function wireCardMapFallback() {
+  document.querySelectorAll('.hl-card').forEach(card => {
+    const id = parseInt(card.id.replace('hcard-', ''));
+    card.addEventListener('click', () => {
+      const h = HOTELS.find(x => x.id === id);
+      if (h) updateMapSelected(h);
+    });
+  });
+}
+
+// 初始化地图
+initAMap();
+
+// ── ACCOUNT ──
+function toggleAccount(){document.getElementById('navAccount').classList.toggle('open')}
+
+// ══════════════════════════════════
+// 带参数跳转 detail 页
+// ══════════════════════════════════
+function buildDetailURL(detailPage){
+  const page = detailPage || 'hotel_detail.html';
+  const p = new URLSearchParams();
+  if(sStart) p.set('checkin',  sStart.toISOString().slice(0,10));
+  if(sEnd)   p.set('checkout', sEnd.toISOString().slice(0,10));
+  p.set('rooms',    gS.rooms);
+  p.set('adults',   gS.adults);
+  p.set('children', gS.children);
+  return `${page}?${p.toString()}`;
+}
+function wireHotelCards(){
+  document.querySelectorAll('.hl-card').forEach(card=>{
+    const detail = card.dataset.detail || '#';
+    if(detail === '#') return; // no detail page yet, do nothing
+    const url = buildDetailURL(detail);
+    card.href = url;
+    card.onclick = function(e){
+      e.preventDefault();
+      const id = parseInt(card.id.replace('hcard-',''));
+      if(id) selectHotel(id);
+      window.location.href = buildDetailURL(detail);
+    };
+  });
+}
+// 每次日期/人数更新后刷新链接
+function afterDateUpdate(){ wireHotelCards(); }
+function afterGuestUpdate(){ wireHotelCards(); }
+
+// ── OUTSIDE CLICK ──
+document.addEventListener('click',e=>{
+  const sh=document.getElementById('shSearch');
+  const acc=document.getElementById('navAccount');
+  if(sh&&!sh.contains(e.target)){sCloseCal();closeGuests(null);}
+  if(acc&&!acc.contains(e.target))acc.classList.remove('open');
+});
+
+sSync();sFullRender();
+// 初始化卡片链接（日期/人数变化时自动更新）
+wireHotelCards();
+
+// ══════════════════════════════════
+// 读取主页带来的 URL 参数
+// ══════════════════════════════════
+function loadFromURL(){
+  const p = new URLSearchParams(window.location.search);
+
+  // 省份 + 城市
+  const province = p.get('province');
+  const city     = p.get('city');
+  if(province){
+    const sel = document.getElementById('selProvince');
+    if(sel){ sel.value = province; updateCities(); }
+  }
+  if(city){
+    const sel = document.getElementById('selCity');
+    if(sel){
+      // 等城市列表更新完再选
+      Array.from(sel.options).forEach(opt=>{
+        if(opt.value===city || opt.text===city) opt.selected=true;
+      });
+    }
+  }
+
+  // 日期 — 用本地时区解析避免时区偏移问题
+  const ci = p.get('checkin'), co = p.get('checkout');
+  if(ci){
+    const parts = ci.split('-');
+    const d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+    d.setHours(0,0,0,0);
+    if(d >= sNow){ sStart=d; sPhase=1; }
+  }
+  if(co){
+    const parts = co.split('-');
+    const d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+    d.setHours(0,0,0,0);
+    if(sStart && d > sStart){ sEnd=d; sPhase=2; }
+  }
+
+  // 人数
+  const rooms    = parseInt(p.get('rooms'))    || 1;
+  const adults   = parseInt(p.get('adults'))   || 1;
+  const children = parseInt(p.get('children')) || 0;
+  gS = {rooms, adults, children};
+  document.getElementById('gRooms').textContent    = rooms;
+  document.getElementById('gAdults').textContent   = adults;
+  document.getElementById('gChildren').textContent = children;
+  let gl = `${rooms}间 · ${adults}成人`;
+  if(children>0) gl += ` · ${children}儿童`;
+  document.getElementById('guestLabel').textContent = gl;
+
+  // 同步日历显示 + 刷新卡片链接
+  sSync(); sFullRender(); wireHotelCards();
+
+  // 更新页面标题
+  if(city){
+    document.getElementById('heroTitle').textContent = `${city}精选酒店`;
+    document.getElementById('heroSub').textContent   = `共 8 家精选酒店 · 均已通过自由网品质筛选`;
+  }
+}
+loadFromURL();
+
+// 日期选完后刷新链接
+const _origPickDay = sPickDay;
+window.sPickDay = function(ts){
+  _origPickDay(ts); wireHotelCards();
+};
+// 人数改变后刷新链接
+const _origAdj = adjGuest;
+window.adjGuest = function(e,t,d){
+  _origAdj(e,t,d); wireHotelCards();
+};
+</script>
+</body>
+</html>

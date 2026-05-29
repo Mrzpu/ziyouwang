@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自由网 · 精选酒店</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@200;300;400;500;700&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#1a6b52;--brand2:#15563f;--brand3:#0f3d2c;
+  --accent:#e8a020;--accent2:#f5b830;
+  --bg:#f7f8fa;--white:#ffffff;
+  --border:#e8eaed;--border2:#d0d3d8;
+  --ink:#1a1a1a;--mid:#4a4f58;--pale:#8a909a;--faint:#b8bcc4;
+  --tag-bg:#f0f4f0;--tag-color:#1a6b52;
+  --red:#e84040;--gold:#e8a020;
+  --sans:'Noto Sans SC',sans-serif;
+  --serif:'Noto Serif SC',serif;
+  --radius:10px;--radius-sm:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;overflow-x:hidden;font-size:15px}
+
+/* ══ NAV ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:56px;background:var(--white);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:0;
+}
+.logo{display:flex;align-items:center;text-decoration:none;margin-right:32px;flex-shrink:0}
+.logo-icon{
+  width:32px;height:32px;background:var(--brand);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;color:#fff;font-family:var(--serif);
+  margin-right:8px;flex-shrink:0;
+}
+.logo-name{font-size:17px;font-weight:700;color:var(--brand);letter-spacing:.04em}
+.logo-sub{font-size:11px;color:var(--pale);margin-left:6px;letter-spacing:.02em;align-self:flex-end;margin-bottom:1px}
+
+/* nav search bar */
+.nav-search{
+  flex:1;max-width:360px;margin-right:auto;
+  display:flex;align-items:center;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:20px;padding:0 14px;height:36px;gap:8px;
+  transition:border-color .2s;
+}
+.nav-search:focus-within{border-color:var(--brand)}
+.nav-search input{
+  border:none;background:transparent;font-family:var(--sans);
+  font-size:13px;color:var(--ink);outline:none;flex:1;
+}
+.nav-search-btn{
+  background:var(--brand);border:none;border-radius:50%;
+  width:24px;height:24px;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;flex-shrink:0;transition:background .2s;
+}
+.nav-search-btn:hover{background:var(--brand2)}
+.nav-search-btn svg{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+
+.nav-links{display:flex;align-items:center;gap:4px;margin:0 16px}
+.nav-link{
+  padding:6px 12px;border-radius:6px;font-size:13px;
+  color:var(--mid);text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.nav-link:hover{background:var(--tag-bg);color:var(--brand)}
+.nav-link.active{color:var(--brand);font-weight:500}
+
+/* account dropdown */
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-account{position:relative}
+.na-trigger{
+  display:flex;align-items:center;gap:6px;cursor:pointer;
+  padding:6px 12px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;font-family:var(--sans);font-size:13px;
+  color:var(--mid);transition:all .2s;
+}
+.na-trigger:hover{border-color:var(--brand);color:var(--brand)}
+.na-avatar{
+  width:22px;height:22px;border-radius:50%;background:var(--brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:#fff;font-weight:500;flex-shrink:0;
+}
+.na-arrow{font-size:8px;color:var(--pale);transition:transform .2s}
+.nav-account.open .na-arrow{transform:rotate(180deg)}
+.na-dropdown{
+  position:absolute;top:calc(100% + 6px);right:0;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);min-width:168px;
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  opacity:0;pointer-events:none;transform:translateY(-6px);
+  transition:all .2s;z-index:300;overflow:hidden;
+}
+.nav-account.open .na-dropdown{opacity:1;pointer-events:all;transform:translateY(0)}
+.na-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;font-size:13px;color:var(--mid);
+  text-decoration:none;transition:background .15s;
+}
+.na-item:hover{background:var(--bg);color:var(--brand)}
+.na-ico{font-size:15px;width:18px;text-align:center}
+.na-sep{height:1px;background:var(--border)}
+.na-join{
+  display:block;padding:10px 16px;text-align:center;
+  background:var(--brand);color:#fff;font-size:13px;
+  font-weight:500;text-decoration:none;transition:background .2s;
+}
+.na-join:hover{background:var(--brand2)}
+.na-logout{color:var(--pale)!important}
+
+/* ══ HERO ══ */
+.hero{
+  margin-top:64px;
+  display:grid;grid-template-columns:1fr 380px;
+  min-height:460px;
+  background:var(--white);
+}
+
+/* left: search panel */
+.hero-search{
+  padding:36px 40px 32px;
+  display:flex;flex-direction:column;
+  border-right:1px solid var(--border);
+}
+.hs-title{font-size:26px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.hs-sub{font-size:15px;color:var(--pale);margin-bottom:24px}
+
+/* search card */
+.search-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:visible;position:relative;
+}
+.sc-row{display:flex;align-items:stretch}
+.sc-field{
+  flex:1;padding:12px 16px;border-right:1px solid var(--border);
+  cursor:pointer;transition:background .15s;position:relative;
+  display:flex;flex-direction:column;justify-content:center;
+  min-width:0;
+}
+.sc-field:first-child{border-radius:var(--radius) 0 0 0}
+.sc-field:hover,.sc-field.open{background:rgba(26,107,82,.04)}
+.sc-label{font-size:11px;color:var(--pale);margin-bottom:3px;font-weight:500;letter-spacing:.03em}
+.sc-val{font-size:15px;color:var(--ink);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-val.ph{color:var(--faint);font-weight:400}
+.sc-select{
+  border:none;background:transparent;font-family:var(--sans);
+  font-size:14px;font-weight:500;color:var(--ink);outline:none;
+  width:100%;cursor:pointer;-webkit-appearance:none;appearance:none;
+}
+.sc-select option{font-weight:400}
+
+/* dates merged */
+.sc-dates{
+  flex:2;display:flex;align-items:stretch;
+  border-right:1px solid var(--border);position:relative;overflow:visible;
+}
+.sc-date-half{
+  flex:1;padding:12px 16px;display:flex;flex-direction:column;
+  justify-content:center;cursor:pointer;transition:background .15s;
+}
+.sc-date-half:hover,.sc-date-half.open{background:rgba(26,107,82,.04)}
+.sc-sep{
+  flex:0 0 52px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--pale);
+  border-left:1px solid var(--border);border-right:1px solid var(--border);
+  background:rgba(26,107,82,.02);
+}
+.sc-nights{font-size:11px;color:var(--brand);font-weight:500}
+
+/* guests */
+.sc-guests{
+  flex:0 0 136px;padding:12px 16px;
+  display:flex;flex-direction:column;justify-content:center;
+  cursor:pointer;transition:background .15s;position:relative;
+  border-right:1px solid var(--border);user-select:none;
+}
+.sc-guests:hover,.sc-guests.open{background:rgba(26,107,82,.04)}
+
+/* search button row */
+.sc-btn-row{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.sc-search-btn{
+  flex:1;height:40px;background:var(--brand);color:#fff;border:none;
+  border-radius:var(--radius-sm);font-family:var(--sans);font-size:15px;
+  font-weight:500;cursor:pointer;transition:background .2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.sc-search-btn:hover{background:var(--brand2)}
+.sc-search-btn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+
+/* calendar popup */
+.cal-popup{
+  position:absolute;top:calc(100% + 8px);left:0;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.12);
+  z-index:9999;opacity:0;pointer-events:none;
+  transform:translateY(-8px);transition:opacity .2s,transform .2s;
+  width:580px;
+}
+.cal-popup.show{opacity:1;pointer-events:all;transform:translateY(0)}
+.cp-head{padding:14px 20px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cp-status{font-size:12px;color:var(--mid)}
+.cp-status b{color:var(--brand);font-weight:500}
+.cp-nights-tag{font-size:12px;color:var(--gold);font-weight:500}
+.cp-months{display:grid;grid-template-columns:1fr 1fr}
+.cp-month{padding:14px 18px 18px}
+.cp-month+.cp-month{border-left:1px solid var(--border)}
+.cp-mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cp-mname{font-size:13px;font-weight:500;color:var(--ink)}
+.cp-nav{width:26px;height:26px;border-radius:50%;background:transparent;border:none;cursor:pointer;font-size:16px;color:var(--pale);display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cp-nav:hover:not([disabled]){background:var(--tag-bg);color:var(--brand)}
+.cp-nav[disabled]{opacity:.2;cursor:default;pointer-events:none}
+.cp-dow{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px}
+.cp-dow span{font-size:10px;color:var(--pale);text-align:center;padding:3px 0}
+.cp-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.day{height:34px;position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.day::before{content:'';position:absolute;top:2px;bottom:2px;left:0;right:0;background:transparent;pointer-events:none;z-index:0;transition:background .08s}
+.day>span{position:relative;z-index:1;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink);transition:background .08s,color .08s;flex-shrink:0}
+.day.empty,.day.empty::before{background:transparent!important;cursor:default}
+.day.past>span{color:var(--faint)!important;background:transparent!important}
+.day.past{cursor:not-allowed}
+.day.today>span::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--brand)}
+.day:not(.past):not(.empty):not(.sel-start):not(.sel-end):hover>span{background:#e8f4ef}
+.day.in-range::before{background:#e8f4ef}
+.day.in-range>span{color:var(--brand)}
+.day.preview::before{background:rgba(26,107,82,.08)}
+.day.preview>span{color:var(--brand)}
+.day.sel-start>span{background:var(--brand)!important;color:#fff!important}
+.day.sel-start.has-end::before{background:#e8f4ef;left:50%;right:0}
+.day.sel-start.has-preview::before{background:rgba(26,107,82,.08);left:50%;right:0}
+.day.sel-start:not(.has-end):not(.has-preview)::before{background:transparent}
+.day.sel-end>span{background:var(--brand)!important;color:#fff!important}
+.day.sel-end::before{background:#e8f4ef;left:0;right:50%}
+.day.sel-start.today>span::after,.day.sel-end.today>span::after{background:rgba(255,255,255,.8)}
+.cp-foot{padding:10px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cp-clear{font-size:12px;color:var(--pale);background:none;border:none;cursor:pointer;font-family:var(--sans);text-decoration:underline;transition:color .15s}
+.cp-clear:hover{color:var(--red)}
+.cp-confirm{background:var(--brand);color:#fff;border:none;padding:8px 20px;font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer;border-radius:var(--radius-sm);transition:background .2s}
+.cp-confirm:hover{background:var(--brand2)}
+
+/* guests popup */
+.guests-popup{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.12);
+  z-index:9999;opacity:0;pointer-events:none;
+  transform:translateY(-8px);transition:opacity .2s,transform .2s;
+  width:260px;padding:16px 20px;
+}
+.guests-popup.show{opacity:1;pointer-events:all;transform:translateY(0)}
+.gp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.gp-row:last-of-type{border-bottom:none}
+.gp-label{font-size:13px;font-weight:500;color:var(--ink)}
+.gp-sub{font-size:11px;color:var(--pale);margin-top:1px}
+.gp-ctrl{display:flex;align-items:center;gap:10px}
+.gp-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--white);font-size:16px;color:var(--mid);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.gp-btn:hover:not([disabled]){border-color:var(--brand);color:var(--brand);background:#e8f4ef}
+.gp-btn[disabled]{opacity:.25;cursor:default}
+.gp-num{font-size:15px;font-weight:500;color:var(--ink);min-width:18px;text-align:center}
+.gp-ok{width:100%;margin-top:14px;padding:9px;background:var(--brand);color:#fff;border:none;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;border-radius:var(--radius-sm);transition:background .2s}
+.gp-ok:hover{background:var(--brand2)}
+
+/* ── quick links below search ── */
+.quick-links{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.ql{
+  padding:7px 16px;font-size:13px;
+  display:flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;border:1px solid var(--border);
+  font-size:12px;color:var(--mid);cursor:pointer;
+  background:var(--white);transition:all .15s;text-decoration:none;
+}
+.ql:hover{border-color:var(--brand);color:var(--brand);background:#e8f4ef}
+.ql-ico{font-size:14px}
+
+/* ── daily scene (right panel) ── */
+.hero-scene{
+  position:relative;overflow:hidden;
+  background:#0a2820;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.scene-bg-img{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;transition:opacity 1.4s ease;z-index:0;
+}
+.scene-bg-img.loaded{opacity:1}
+/* dark gradient overlay so text stays readable over any photo */
+.scene-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.75) 0%,
+    rgba(0,0,0,.3)  45%,
+    rgba(0,0,0,.08) 100%
+  );
+}
+/* green shimmer shown while image loads */
+.scene-shimmer{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(135deg,#0f3d2c 0%,#1a6b52 50%,#0a2820 100%);
+  transition:opacity 1.4s ease;
+}
+.scene-shimmer.hidden{opacity:0;pointer-events:none}
+.scene-content{position:relative;z-index:2;padding:24px 28px}
+.scene-date-block{margin-bottom:20px}
+.scene-day{font-size:88px;font-weight:700;color:#fff;line-height:1;font-family:var(--serif)}
+.scene-monthyear{
+  font-size:13px;color:rgba(255,255,255,.6);letter-spacing:.1em;
+  text-transform:uppercase;margin-top:2px;
+}
+.scene-weekday{font-size:13px;color:rgba(255,255,255,.5);margin-top:2px}
+.scene-divider{width:32px;height:2px;background:rgba(255,255,255,.3);margin:16px 0}
+.scene-quote{font-size:18px;color:rgba(255,255,255,.9);font-family:var(--serif);line-height:1.6;margin-bottom:8px}
+.scene-loc{
+  font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em;
+  display:flex;align-items:center;gap:4px;
+}
+.scene-loc::before{content:'📍';font-size:10px}
+.scene-tag-row{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.scene-tag{
+  font-size:11px;color:rgba(255,255,255,.8);
+  border:1px solid rgba(255,255,255,.25);
+  padding:3px 10px;border-radius:20px;
+}
+
+/* ══ CONTENT SECTION ══ */
+.content{max-width:1280px;margin:0 auto;padding:40px 40px 100px}
+
+/* section header */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-title{font-size:20px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.sec-title-ico{font-size:18px}
+.sec-highlight{color:var(--brand)}
+.sec-more{font-size:13px;color:var(--brand);text-decoration:none;display:flex;align-items:center;gap:2px}
+.sec-more:hover{text-decoration:underline}
+
+/* city tabs */
+.city-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.city-tab{
+  padding:6px 16px;border-radius:20px;border:1px solid var(--border);
+  font-size:13px;color:var(--mid);cursor:pointer;background:var(--white);
+  transition:all .15s;
+}
+.city-tab.active,.city-tab:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+/* hotel recommend grid */
+.hotel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.hotel-card{
+  background:var(--white);border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;
+  border:1px solid var(--border);text-decoration:none;display:block;
+}
+.hotel-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px)}
+.hc-img{
+  height:170px;position:relative;overflow:hidden;
+  display:block;
+}
+.hc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+.hc-badge{
+  position:absolute;top:8px;left:8px;
+  font-size:10px;font-weight:500;padding:3px 8px;border-radius:4px;
+  background:rgba(26,107,82,.9);color:#fff;letter-spacing:.02em;
+}
+.hc-badge.mem{background:rgba(232,160,32,.9);color:#fff}
+.hc-body{padding:12px 14px}
+.hc-name{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.hc-loc{font-size:11px;color:var(--pale);margin-bottom:6px}
+.hc-stars{color:var(--gold);font-size:11px;letter-spacing:1px;margin-bottom:8px}
+.hc-price-row{display:flex;align-items:baseline;justify-content:space-between}
+.hc-price{font-size:22px;font-weight:700;color:var(--red)}
+.hc-price sub{font-size:11px;font-weight:400}
+.hc-compare{font-size:11px;color:var(--pale)}
+.hc-compare s{font-size:11px}
+.hc-save{
+  font-size:10px;font-weight:500;color:var(--brand);
+  background:var(--tag-bg);padding:2px 6px;border-radius:4px;
+}
+
+/* feature strips */
+.feature-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  margin-bottom:32px;
+}
+.feat-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;
+  display:flex;align-items:center;gap:14px;
+  cursor:default;transition:box-shadow .2s;
+}
+.feat-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.feat-ico{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;background:var(--tag-bg);
+}
+.feat-title{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.feat-desc{font-size:13px;color:var(--pale);line-height:1.5}
+
+/* city grid */
+.city-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:32px}
+.city-card-s{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:all .2s;text-decoration:none;display:block;
+}
+.city-card-s:hover{box-shadow:0 6px 20px rgba(0,0,0,.09);transform:translateY(-2px)}
+.cc-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.cc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent 60%)}
+.cc-name-wrap{position:absolute;bottom:8px;left:10px;right:10px}
+.cc-name{font-size:14px;font-weight:600;color:#fff}
+.cc-count{font-size:10px;color:rgba(255,255,255,.7)}
+
+/* membership banner */
+.member-banner{
+  background:linear-gradient(135deg,var(--brand3) 0%,var(--brand) 60%,#2d8a68 100%);
+  border-radius:var(--radius);padding:28px 32px;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+  margin-bottom:32px;position:relative;overflow:hidden;
+}
+.member-banner::before{
+  content:'';position:absolute;width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,.05);top:-80px;right:80px;pointer-events:none;
+}
+.mb-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px}
+.mb-desc{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px;max-width:480px;line-height:1.6}
+.mb-perks{display:flex;gap:20px;flex-wrap:wrap}
+.mb-perk{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.85)}
+.mb-perk::before{content:'✓';color:var(--accent2);font-weight:700}
+.mb-btn{
+  background:#fff;color:var(--brand);border:none;
+  padding:12px 28px;border-radius:var(--radius-sm);
+  font-family:var(--sans);font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.mb-btn:hover{background:var(--accent2);color:#fff}
+.mb-price{font-size:13px;color:rgba(255,255,255,.6);text-align:center;margin-top:6px}
+
+/* ══ FOOTER ══ */
+footer{background:var(--ink);padding:40px 24px 24px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px}
+.footer-logo{margin-bottom:12px}
+.footer-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.8}
+.footer-col h4{font-size:11px;font-weight:500;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col ul a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.footer-col ul a:hover{color:rgba(255,255,255,.9)}
+.footer-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.25)}
+
+@media(max-width:900px){
+  nav{padding:0 16px}
+  .nav-links{display:none}
+  .nav-search{max-width:200px}
+  .hero{grid-template-columns:1fr}
+  .hero-scene{display:none}
+  .hero-search{padding:24px 16px}
+  .hotel-grid{grid-template-columns:repeat(2,1fr)}
+  .city-grid{grid-template-columns:repeat(3,1fr)}
+  .feature-strip{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .member-banner{grid-template-columns:1fr}
+  .content{padding:16px 16px 40px}
+}
+
+html { font-size: 18px; zoom: 1.12; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a class="logo" href="../index.html">
+    <div class="logo-icon">自</div>
+    <span class="logo-name">自由网</span>
+    <span class="logo-sub">精选酒店</span>
+  </a>
+  <div class="nav-search">
+    <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:var(--pale);stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+    <input type="text" placeholder="搜索目的地、酒店名称…">
+    <button class="nav-search-btn" onclick="location.href='search.html'">
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link active" href="../search.html">精选酒店</a>
+    <a class="nav-link" href="#how">预订流程</a>
+    <a class="nav-link" href="#member">会员权益</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-account" id="navAccount">
+      <button class="na-trigger" onclick="toggleAccount()">
+        <div class="na-avatar">客</div>
+        <span>我的账户</span>
+        <span class="na-arrow">▾</span>
+      </button>
+      <div class="na-dropdown">
+        <a href="#" class="na-item"><span class="na-ico">📋</span>我的订单</a>
+        <a href="#member" class="na-item"><span class="na-ico">⭐</span>会员权益</a>
+        <a href="#" class="na-item"><span class="na-ico">👤</span>账户设置</a>
+        <a href="#" class="na-item"><span class="na-ico">💬</span>联系客服</a>
+        <div class="na-sep"></div>
+        <a href="#" class="na-item na-logout"><span class="na-ico">↩</span>退出登录</a>
+        <a href="#member" class="na-join">加入会员</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <!-- LEFT: search -->
+  <div class="hero-search">
+    <div class="hs-title">找到真正值得住的酒店</div>
+    <div class="hs-sub">精选筛选，批发价格，比携程更便宜</div>
+
+    <div class="search-card" id="heroSearch">
+      <div class="sc-row">
+        <!-- 省份 -->
+        <div class="sc-field" style="flex:0 0 96px">
+          <div class="sc-label">省份</div>
+          <select class="sc-select" id="hProvince" onchange="hUpdateCities()">
+            <option value="sd">山东省</option>
+            <option value="bj">北京市</option>
+            <option value="sh">上海市</option>
+            <option value="gd">广东省</option>
+            <option value="zj">浙江省</option>
+          </select>
+        </div>
+        <!-- 城市 -->
+        <div class="sc-field" style="flex:0 0 96px">
+          <div class="sc-label">城市</div>
+          <select class="sc-select" id="hCity">
+            <option>威海</option><option>青岛</option><option>烟台</option>
+            <option>泰安</option><option>济南</option>
+          </select>
+        </div>
+        <!-- 日期区域 -->
+        <div class="sc-dates" id="hDates">
+          <div class="sc-date-half" id="hSfIn" onclick="hOpenCal()">
+            <div class="sc-label">入住</div>
+            <div class="sc-val ph" id="hDIn">选择日期</div>
+          </div>
+          <div class="sc-sep"><span class="sc-nights" id="hNights">—</span></div>
+          <div class="sc-date-half" id="hSfOut" onclick="hOpenCal()">
+            <div class="sc-label">退房</div>
+            <div class="sc-val ph" id="hDOut">选择日期</div>
+          </div>
+          <!-- calendar -->
+          <div class="cal-popup" id="hCal">
+            <div class="cp-head">
+              <span class="cp-status" id="hCpSt">请点击选择<b>入住日期</b></span>
+              <span class="cp-nights-tag" id="hCpN"></span>
+            </div>
+            <div class="cp-months">
+              <div class="cp-month" id="hML"></div>
+              <div class="cp-month" id="hMR"></div>
+            </div>
+            <div class="cp-foot">
+              <button class="cp-clear" onclick="hClearAll()">清除日期</button>
+              <button class="cp-confirm" onclick="hCloseCal()">确认</button>
+            </div>
+          </div>
+        </div>
+        <!-- 人数 -->
+        <div class="sc-guests" id="hGuestsField" onclick="toggleHGuests()">
+          <div class="sc-label">房间及住客</div>
+          <div class="sc-val"><span id="hGuestLabel">1间 · 1成人</span> <span style="font-size:9px;color:var(--pale)">▾</span></div>
+          <div class="guests-popup" id="hGuestPopup">
+            <div class="gp-row">
+              <div><div class="gp-label">房间</div></div>
+              <div class="gp-ctrl">
+                <button class="gp-btn" onclick="adjHGuest(event,'rooms',-1)">−</button>
+                <span class="gp-num" id="hgRooms">1</span>
+                <button class="gp-btn" onclick="adjHGuest(event,'rooms',1)">+</button>
+              </div>
+            </div>
+            <div class="gp-row">
+              <div><div class="gp-label">成人</div><div class="gp-sub">18岁及以上</div></div>
+              <div class="gp-ctrl">
+                <button class="gp-btn" onclick="adjHGuest(event,'adults',-1)">−</button>
+                <span class="gp-num" id="hgAdults">1</span>
+                <button class="gp-btn" onclick="adjHGuest(event,'adults',1)">+</button>
+              </div>
+            </div>
+            <div class="gp-row">
+              <div><div class="gp-label">儿童</div><div class="gp-sub">0–17岁</div></div>
+              <div class="gp-ctrl">
+                <button class="gp-btn" onclick="adjHGuest(event,'children',-1)">−</button>
+                <span class="gp-num" id="hgChildren">0</span>
+                <button class="gp-btn" onclick="adjHGuest(event,'children',1)">+</button>
+              </div>
+            </div>
+            <button class="gp-ok" onclick="closeHGuests(event)">确定</button>
+          </div>
+        </div>
+      </div>
+      <div class="sc-btn-row">
+        <button class="sc-search-btn" onclick="goSearch()">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          搜索精选酒店
+        </button>
+      </div>
+    </div>
+
+    <div class="quick-links">
+      <a class="ql" href="../search.html"><span class="ql-ico">🌊</span>威海海景</a>
+      <a class="ql" href="../search.html"><span class="ql-ico">⭐</span>五星精选</a>
+      <a class="ql" href="../search.html"><span class="ql-ico">💰</span>会员特价</a>
+      <a class="ql" href="../search.html"><span class="ql-ico">🍳</span>含早餐</a>
+      <a class="ql" href="../search.html"><span class="ql-ico">🅿️</span>免费停车</a>
+    </div>
+  </div>
+
+  <!-- RIGHT: daily scene -->
+  <div class="hero-scene" id="heroScene">
+    <div class="scene-bg-img" id="sceneBgImg"></div>
+    <div class="scene-overlay"></div>
+    <div class="scene-content">
+      <div class="scene-date-block">
+        <div class="scene-day" id="sceneDay">24</div>
+        <div class="scene-monthyear" id="sceneMonthYear">2026.05</div>
+        <div class="scene-weekday" id="sceneWeekday">Wednesday</div>
+      </div>
+      <div class="scene-divider"></div>
+      <div class="scene-quote" id="sceneQuote">山海相连，自由出行</div>
+      <div class="scene-loc" id="sceneLoc">山东 · 威海</div>
+      <div class="scene-tag-row" id="sceneTagRow">
+        <span class="scene-tag">精选推荐</span>
+        <span class="scene-tag">海滨度假</span>
+      </div>
+    </div>
+    <!-- loading shimmer while image loads -->
+    <div class="scene-shimmer" id="sceneShimmer"></div>
+  </div>
+</div>
+
+<!-- ══ CONTENT ══ -->
+<div class="content">
+
+  <!-- 平台特色 -->
+  <div class="feature-strip" style="margin-top:24px">
+    <div class="feat-card">
+      <div class="feat-ico">🎯</div>
+      <div><div class="feat-title">专业筛选，不靠佣金</div><div class="feat-desc">每家酒店经人工评测，真实评分排名，不接受竞价</div></div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">💰</div>
+      <div><div class="feat-title">批发价格，比携程便宜</div><div class="feat-desc">直接与酒店签约，锁定批发价，会员价更低</div></div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">🔒</div>
+      <div><div class="feat-title">保证有房，旺季无忧</div><div class="feat-desc">提前锁定房源，节假日旺季也能拿到房间</div></div>
+    </div>
+  </div>
+
+  <!-- 精选酒店 -->
+  <div id="hotels">
+    <div class="sec-head">
+      <div class="sec-title"><span class="sec-title-ico">🏨</span>为你推荐 · <span class="sec-highlight">威海精选</span></div>
+      <div class="city-tabs">
+        <div class="city-tab active" onclick="setCity(this,'威海')">威海</div>
+        <div class="city-tab" onclick="setCity(this,'青岛')">青岛</div>
+        <div class="city-tab" onclick="setCity(this,'烟台')">烟台</div>
+        <div class="city-tab" onclick="setCity(this,'泰安')">泰安</div>
+      </div>
+      <a class="sec-more" href="../search.html">查看全部 →</a>
+    </div>
+    <div class="hotel-grid" id="hotelGrid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <!-- 热门城市 -->
+  <div style="margin-top:32px">
+    <div class="sec-head">
+      <div class="sec-title"><span class="sec-title-ico">📍</span>热门目的地</div>
+      <a class="sec-more" href="../search.html">更多城市 →</a>
+    </div>
+    <div class="city-grid">
+      <a href="../search.html" class="city-card-s">
+        <div class="cc-img" style="background:linear-gradient(155deg,#1b4f6e,#0f2f48)">🌊<div class="cc-ov"></div><div class="cc-name-wrap"><div class="cc-name">威海</div><div class="cc-count">8家精选</div></div></div>
+      </a>
+      <a href="../search.html" class="city-card-s">
+        <div class="cc-img" style="background:linear-gradient(155deg,#2d5a3d,#1a3a27)">🏖️<div class="cc-ov"></div><div class="cc-name-wrap"><div class="cc-name">青岛</div><div class="cc-count">即将开放</div></div></div>
+      </a>
+      <a href="../search.html" class="city-card-s">
+        <div class="cc-img" style="background:linear-gradient(155deg,#5a3d28,#3d2a1a)">🍎<div class="cc-ov"></div><div class="cc-name-wrap"><div class="cc-name">烟台</div><div class="cc-count">即将开放</div></div></div>
+      </a>
+      <a href="../search.html" class="city-card-s">
+        <div class="cc-img" style="background:linear-gradient(155deg,#3a2d4e,#251d35)">⛰️<div class="cc-ov"></div><div class="cc-name-wrap"><div class="cc-name">泰安</div><div class="cc-count">即将开放</div></div></div>
+      </a>
+      <a href="../search.html" class="city-card-s">
+        <div class="cc-img" style="background:linear-gradient(155deg,#4a3a1e,#2d2412)">🌸<div class="cc-ov"></div><div class="cc-name-wrap"><div class="cc-name">济南</div><div class="cc-count">即将开放</div></div></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 会员 banner -->
+  <div class="member-banner" id="member">
+    <div>
+      <div class="mb-title">加入会员，每次都省钱</div>
+      <div class="mb-desc">把最大的利润留给你。我们只拿有限的差价，住得越多越值。全国精选酒店批发价，旺季优先锁房。</div>
+      <div class="mb-perks">
+        <div class="mb-perk">全国批发价</div>
+        <div class="mb-perk">旺季优先订房</div>
+        <div class="mb-perk">专属客服</div>
+        <div class="mb-perk">季度专属特惠</div>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <button class="mb-btn">立即加入</button>
+      <div class="mb-price">¥299 / 年 · 住满3次回本</div>
+    </div>
+  </div>
+
+  <!-- 预订流程 -->
+  <div id="how">
+    <div class="sec-head"><div class="sec-title"><span class="sec-title-ico">📖</span>预订流程</div></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div class="feat-card" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="feat-ico">🔍</div>
+        <div><div class="feat-title" style="margin-bottom:4px">搜索目的地</div><div class="feat-desc">只展示筛选过的精选酒店</div></div>
+      </div>
+      <div class="feat-card" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="feat-ico">🏨</div>
+        <div><div class="feat-title" style="margin-bottom:4px">对比精选酒店</div><div class="feat-desc">真实评测和价格对比</div></div>
+      </div>
+      <div class="feat-card" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="feat-ico">💳</div>
+        <div><div class="feat-title" style="margin-bottom:4px">会员一键预订</div><div class="feat-desc">微信/支付宝快速支付</div></div>
+      </div>
+      <div class="feat-card" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <div class="feat-ico">✅</div>
+        <div><div class="feat-title" style="margin-bottom:4px">到店享受服务</div><div class="feat-desc">专属客服全程保障</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:28px;height:28px;background:var(--brand);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;font-family:var(--serif)">自</div>
+            <span style="font-size:16px;font-weight:700;color:rgba(255,255,255,.8);font-family:var(--serif)">自由网</span>
+          </div>
+        </div>
+        <p class="footer-desc">精选酒店预订平台，只推荐真正好的酒店。<br>让每一次出行，都住得踏实、住得划算。</p>
+      </div>
+      <div class="footer-col"><h4>目的地</h4><ul>
+        <li><a href="../search.html">威海</a></li>
+        <li><a href="../search.html">青岛</a></li>
+        <li><a href="../search.html">烟台</a></li>
+        <li><a href="../search.html">泰安</a></li>
+        <li><a href="../search.html">济南</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>平台</h4><ul>
+        <li><a href="#">酒店筛选标准</a></li>
+        <li><a href="#member">会员制度</a></li>
+        <li><a href="#">酒店合作入驻</a></li>
+        <li><a href="#">城市负责人</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>帮助</h4><ul>
+        <li><a href="#">常见问题</a></li>
+        <li><a href="#">联系客服</a></li>
+        <li><a href="#">退订政策</a></li>
+        <li><a href="#">用户协议</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bot">
+      <span class="footer-copy">© 2025 自由网精选酒店平台 · 鲁ICP备XXXXXXXX号</span>
+      <span class="footer-copy">微信扫码下载 App</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// 每日精选中国风景图库
+// 12张顶级风景，按日期轮换，每天不同
+// 图片来源：Unsplash（免费商用授权）
+// ══════════════════════════════════════════
+const LANDSCAPES = [
+  {
+    // 广西·桂林·漓江 — 漓江喀斯特山水，清晨日出
+    url: 'https://images.unsplash.com/photo-1537531383403-f31f741e38c5?w=1200&q=90&fit=crop',
+    quote: '桂林山水甲天下',
+    loc: '广西 · 桂林 · 漓江',
+    tags: ['山水画卷', '喀斯特地貌'],
+  },
+  {
+    // 甘肃·敦煌·鸣沙山 — 月牙泉沙漠绿洲，精确匹配
+    url: 'https://images.unsplash.com/photo-1723730434484-bff00867dd18?w=1200&q=90&fit=crop&crop=center',
+    quote: '大漠孤烟直，长河落日圆',
+    loc: '甘肃 · 敦煌 · 鸣沙山',
+    tags: ['丝绸之路', '沙漠奇景'],
+  },
+  {
+    // 湖南·张家界 — 阿凡达取景地石柱山峰
+    url: 'https://images.unsplash.com/photo-1527576539890-dfa815648363?w=1200&q=90&fit=crop',
+    quote: '奇峰三千，秀水八百',
+    loc: '湖南 · 张家界 · 武陵源',
+    tags: ['奇峰林立', '阿凡达取景地'],
+  },
+  {
+    // 北京·长城·慕田峪 — 长城秋色
+    url: 'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=1200&q=90&fit=crop',
+    quote: '不到长城非好汉',
+    loc: '北京 · 长城 · 慕田峪',
+    tags: ['世界遗产', '千年历史'],
+  },
+  {
+    // 安徽·黄山 — 云海奇松
+    url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=90&fit=crop',
+    quote: '五岳归来不看山，黄山归来不看岳',
+    loc: '安徽 · 黄山 · 迎客松',
+    tags: ['云海奇观', '奇松怪石'],
+  },
+  {
+    // 浙江·杭州·西湖 — 西湖全景
+    url: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1200&q=90&fit=crop',
+    quote: '欲把西湖比西子，淡妆浓抹总相宜',
+    loc: '浙江 · 杭州 · 西湖',
+    tags: ['人间天堂', '世界遗产'],
+  },
+  {
+    // 四川·九寨沟 — 五彩湖泊
+    url: 'https://images.unsplash.com/photo-1529010568849-b93a5f95b4f1?w=1200&q=90&fit=crop',
+    quote: '九寨归来不看水',
+    loc: '四川 · 九寨沟 · 五花海',
+    tags: ['世界遗产', '童话世界'],
+  },
+  {
+    // 云南·元阳·哈尼梯田 — 云上梯田
+    url: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&q=90&fit=crop',
+    quote: '云端之上，稻香千里',
+    loc: '云南 · 元阳 · 哈尼梯田',
+    tags: ['世界遗产', '云上田园'],
+  },
+  {
+    // 新疆·喀纳斯 — 秋色白桦林
+    url: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1200&q=90&fit=crop',
+    quote: '大美新疆，色彩无边',
+    loc: '新疆 · 喀纳斯 · 白桦林',
+    tags: ['异域风光', '秋日金林'],
+  },
+  {
+    // 四川·成都·青城山 — 道教圣地云雾
+    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=90&fit=crop',
+    quote: '青城天下幽',
+    loc: '四川 · 成都 · 青城山',
+    tags: ['道教圣地', '绿意深幽'],
+  },
+  {
+    // 西藏·布达拉宫 — 雪山圣城
+    url: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1200&q=90&fit=crop',
+    quote: '离天堂最近的地方',
+    loc: '西藏 · 拉萨 · 布达拉宫',
+    tags: ['世界屋脊', '神圣之地'],
+  },
+  {
+    // 山东·威海·海边 — 黄海海景
+    url: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1200&q=90&fit=crop',
+    quote: '山海相连，自由出行',
+    loc: '山东 · 威海 · 黄海之滨',
+    tags: ['精选推荐', '海滨度假'],
+  },
+];
+
+// ── 按日期选择今日风景 ──
+function initDailyScene() {
+  const now = new Date();
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 864e5);
+  const scene = LANDSCAPES[dayOfYear % LANDSCAPES.length];
+
+  // 更新日期文字
+  const weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('sceneDay').textContent = now.getDate();
+  document.getElementById('sceneMonthYear').textContent =
+    `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}`;
+  document.getElementById('sceneWeekday').textContent = weekdays[now.getDay()];
+
+  // 更新文案和地点
+  document.getElementById('sceneQuote').textContent = scene.quote;
+  document.getElementById('sceneLoc').textContent = scene.loc;
+  document.getElementById('sceneTagRow').innerHTML =
+    scene.tags.map(t => `<span class="scene-tag">${t}</span>`).join('');
+
+  // 预加载图片，加载完成后淡入
+  const img = new Image();
+  img.onload = () => {
+    const bg = document.getElementById('sceneBgImg');
+    bg.style.backgroundImage = `url('${scene.url}')`;
+    // 确保 overlay 存在
+    if(!document.querySelector('.scene-overlay')){
+      const ov = document.createElement('div');
+      ov.className = 'scene-overlay';
+      document.getElementById('heroScene').insertBefore(ov, document.getElementById('sceneBgImg').nextSibling);
+    }
+    // 小延迟后淡入，让页面先渲染完
+    setTimeout(() => {
+      bg.classList.add('loaded');
+      setTimeout(() => {
+        document.getElementById('sceneShimmer').classList.add('hidden');
+      }, 600);
+    }, 100);
+  };
+  img.onerror = () => {
+    // 图片加载失败时保留绿色背景，不影响功能
+    console.log('Scene image load failed, using gradient fallback');
+  };
+  img.src = scene.url;
+}
+
+initDailyScene();
+
+// ── HOTEL DATA (same 8 as search.html) ──
+const HOTELS = [
+  {id:1,name:'君季L·DESIGN酒店',stars:3,price:88,compare:104,badge:'精选推荐',badgeType:'',
+   level:'设计师酒店 · 海景 · 市中心',loc:'环翠区青岛北路9号 · 刘公岛码头步行10分钟',
+   bg:'linear-gradient(155deg,#1b3d54,#0f2535)',icon:'🏨',rating:4.6,city:'威海',
+   link:'hotels/junji.html', imgSrc:'../assets/images/hotels/junji/exterior.png'},
+  {id:2,name:'威海百纳瑞汀酒店',stars:4,price:229,compare:270,badge:'精选推荐',badgeType:'',
+   level:'四星级 · 海景 · 繁华商圈',loc:'环翠区新威路58号 · 威海广场对面',
+   bg:'linear-gradient(155deg,#1b3a54,#0f2540)',icon:'🏨',rating:4.8,city:'威海',
+   link:'hotels/bainnasit.html', imgSrc:'../assets/images/hotels/bainnasit/exterior.png'},
+  {id:3,name:'威海东山宾馆',stars:4,price:299,compare:353,badge:'精选推荐',badgeType:'',
+   level:'四星级 · 海景 · 依山傍海',loc:'环翠区东山路26号 · 威海湾畔',
+   bg:'linear-gradient(155deg,#1b3d54,#0f2035)',icon:'🏨',rating:4.8,city:'威海',
+   link:'hotels/dongshan.html',imgSrc:'../assets/images/hotels/dongshan/exterior.png'},
+  {id:4,name:'威海半岛蓝调海景酒店',stars:4,price:318,compare:408,badge:'会员特价',badgeType:'mem',
+   level:'四星级 · 海景 · 度假',loc:'经区海滨路 · 一线海景',
+   bg:'linear-gradient(155deg,#1a3d5e,#0f2540)',icon:'🌊',rating:8.9,city:'威海',
+   link:'#'},
+];
+
+function renderHotels(city){
+  const data = HOTELS.filter(h => !city || h.city === city);
+  document.getElementById('hotelGrid').innerHTML = data.map(h => {
+    const save = h.compare - h.price;
+    const isReady = h.link && h.link !== '#';
+    const imgContent = h.imgSrc
+      ? `<img src="${h.imgSrc}" style="width:100%;height:100%;object-fit:cover" alt="${h.name}">`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px">${h.icon}</div>`;
+    return `<a href="${h.link || '#'}" class="hotel-card" style="${!isReady?'cursor:default;opacity:.85':''}">
+      <div class="hc-img" style="background:${h.bg};position:relative">
+        ${imgContent}
+        <span class="hc-badge ${h.badgeType}">${h.badge}</span>
+        ${!isReady ? '<span style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,.45);color:rgba(255,255,255,.75);font-size:9px;padding:2px 8px;border-radius:20px">详情页制作中</span>' : ''}
+      </div>
+      <div class="hc-body">
+        <div class="hc-name">${h.name}</div>
+        <div class="hc-loc">📍 ${h.loc}</div>
+        <div class="hc-stars">${'★'.repeat(h.stars)}</div>
+        <div class="hc-price-row">
+          <div>
+            <div class="hc-price"><sub>¥</sub>${h.price}</div>
+            <div class="hc-compare">携程 <s>¥${h.compare}</s></div>
+          </div>
+          <span class="hc-save">省¥${save}</span>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+renderHotels('威海');
+
+function setCity(el, city){
+  document.querySelectorAll('.city-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderHotels(city);
+  document.querySelector('.sec-title').innerHTML =
+    `<span class="sec-title-ico">🏨</span>为你推荐 · <span class="sec-highlight">${city}精选</span>`;
+}
+
+// ── SEARCH → 跳转搜索页，携带所有参数 ──
+function goSearch(){
+  const p = new URLSearchParams();
+  // 省份 + 城市
+  const province = document.getElementById('hProvince')?.value || 'sd';
+  const city     = document.getElementById('hCity')?.value     || '威海';
+  p.set('province', province);
+  p.set('city', city);
+  // 日期
+  if(hStart) p.set('checkin',  hStart.toISOString().slice(0,10));
+  if(hEnd)   p.set('checkout', hEnd.toISOString().slice(0,10));
+  // 人数
+  p.set('rooms',    hG.rooms);
+  p.set('adults',   hG.adults);
+  p.set('children', hG.children);
+  window.location.href = `search.html?${p.toString()}`;
+}
+
+// ── PROVINCE → CITY ──
+const H_CITIES={
+  sd:['威海','青岛','烟台','泰安','济南','临沂','潍坊','淄博'],
+  bj:['北京'],sh:['上海'],
+  gd:['广州','深圳','珠海','佛山'],
+  zj:['杭州','宁波','温州','嘉兴']
+};
+function hUpdateCities(){
+  const p=document.getElementById('hProvince').value;
+  const c=document.getElementById('hCity');
+  c.innerHTML=(H_CITIES[p]||[]).map(x=>`<option>${x}</option>`).join('');
+}
+
+// ── DATEPICKER ──
+const WD=['日','一','二','三','四','五','六'];
+const MN=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+const hNow=new Date();hNow.setHours(0,0,0,0);
+let hStart=null,hEnd=null,hPhase=0;
+let hLY=hNow.getFullYear(),hLM=hNow.getMonth();
+function hROf(y,m){return m===11?[y+1,0]:[y,m+1]}
+let[hRY,hRM]=hROf(hLY,hLM);
+const hD0=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+const hSame=(a,b)=>a&&b&&a.getTime()===b.getTime();
+const hFmt=d=>d?`${d.getMonth()+1}月${d.getDate()}日`:'';
+const hMkD=(y,m,d)=>hD0(new Date(y,m,d));
+function hOpenCal(){
+  closeHGuests(null);
+  document.getElementById('hCal').classList.add('show');
+  document.getElementById('hSfIn').classList.add('open');
+  document.getElementById('hSfOut').classList.add('open');
+}
+function hCloseCal(){
+  document.getElementById('hCal').classList.remove('show');
+  document.getElementById('hSfIn').classList.remove('open');
+  document.getElementById('hSfOut').classList.remove('open');
+}
+function hClearAll(){hStart=null;hEnd=null;hPhase=0;hSync();hFullRender();}
+function hSync(){
+  const i=document.getElementById('hDIn'),o=document.getElementById('hDOut');
+  const sep=document.getElementById('hNights');
+  if(hStart){i.textContent=hFmt(hStart);i.classList.remove('ph');}
+  else{i.textContent='选择日期';i.classList.add('ph');}
+  if(hEnd){o.textContent=hFmt(hEnd);o.classList.remove('ph');}
+  else{o.textContent='选择日期';o.classList.add('ph');}
+  if(hStart&&hEnd){const n=Math.round((hEnd-hStart)/864e5);sep.textContent=`${n}晚`;}
+  else if(hStart){sep.textContent='→';}
+  else{sep.textContent='—';}
+  const st=document.getElementById('hCpSt'),n=document.getElementById('hCpN');
+  if(hPhase===0){st.innerHTML='请点击选择<b>入住日期</b>';n.textContent='';}
+  else if(hPhase===1){st.innerHTML=`入住 <b>${hFmt(hStart)}</b> · 请选择<b>退房日期</b>`;n.textContent='';}
+  else{const nt=Math.round((hEnd-hStart)/864e5);st.innerHTML=`<b>${hFmt(hStart)}</b> → <b>${hFmt(hEnd)}</b>`;n.textContent=`共${nt}晚`;}
+}
+function hPickDay(ts){
+  const c=hD0(new Date(ts));if(c<hNow)return;
+  if(hPhase===0||hPhase===2){hStart=c;hEnd=null;hPhase=1;}
+  else{if(hSame(c,hStart)){hStart=null;hPhase=0;}else if(c<hStart){hStart=c;hEnd=null;hPhase=1;}else{hEnd=c;hPhase=2;setTimeout(hCloseCal,350);}}
+  hSync();hFullRender();
+}
+function hHoverDay(ts){if(hPhase!==1)return;hUpdateRange(hD0(new Date(ts)));}
+function hLeaveGrid(){if(hPhase===1)hUpdateRange(null);}
+function hUpdateRange(hov){
+  document.querySelectorAll('#hML .day[data-ts],#hMR .day[data-ts]').forEach(cell=>{
+    const d=hD0(new Date(+cell.dataset.ts));
+    cell.classList.remove('preview','in-range','has-preview','has-end','sel-end');
+    if(hPhase===2&&hStart&&hEnd){if(d>hStart&&d<hEnd)cell.classList.add('in-range');if(hSame(d,hEnd))cell.classList.add('sel-end');if(hSame(d,hStart))cell.classList.add('has-end');}
+    else if(hPhase===1&&hStart&&hov&&hov>hStart){if(d>hStart&&d<hov)cell.classList.add('preview');if(hSame(d,hov))cell.classList.add('preview','sel-end');if(hSame(d,hStart))cell.classList.add('has-preview');}
+    if(hSame(d,hStart)){if(hPhase===2&&hEnd)cell.classList.add('has-end');else if(hPhase===1&&hov&&hov>hStart)cell.classList.add('has-preview');}
+  });
+}
+function hFullRender(){hRenderMonth('hML',hLY,hLM,true);hRenderMonth('hMR',hRY,hRM,false);hUpdateRange(null);}
+function hRenderMonth(id,year,month,isLeft){
+  const wrap=document.getElementById(id);
+  const dim=new Date(year,month+1,0).getDate();const first=new Date(year,month,1).getDay();
+  const[pY,pM]=month===0?[year-1,11]:[year,month-1];
+  const canPrev=pY>hNow.getFullYear()||(pY===hNow.getFullYear()&&pM>=hNow.getMonth());
+  let h=`<div class="cp-mhead">`;
+  if(isLeft){h+=`<button class="cp-nav" onclick="hNav(-1)"${canPrev?'':' disabled'}>‹</button><span class="cp-mname">${year}年 ${MN[month]}</span><span style="width:26px"></span>`;}
+  else{h+=`<span style="width:26px"></span><span class="cp-mname">${year}年 ${MN[month]}</span><button class="cp-nav" onclick="hNav(1)">›</button>`;}
+  h+=`</div><div class="cp-dow">${WD.map(w=>`<span>${w}</span>`).join('')}</div>`;
+  h+=`<div class="cp-grid" onmouseleave="hLeaveGrid()">`;
+  for(let i=0;i<first;i++)h+=`<div class="day empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const dt=hMkD(year,month,d);const ts=dt.getTime();
+    const past=dt<hNow;const tod=hSame(dt,hD0(new Date()));
+    const isSt=hSame(dt,hStart);const isEn=hSame(dt,hEnd);
+    let cls='day';
+    if(past)cls+=' past';if(tod)cls+=' today';if(isSt)cls+=' sel-start';if(isEn)cls+=' sel-end';
+    if(hPhase===2&&hStart&&hEnd&&dt>hStart&&dt<hEnd)cls+=' in-range';
+    if(hPhase===2&&isSt&&hEnd)cls+=' has-end';
+    const ev=past?'':` onclick="hPickDay(${ts})" onmouseenter="hHoverDay(${ts})"`;
+    h+=`<div class="${cls}" data-ts="${ts}"${ev}><span>${d}</span></div>`;
+  }
+  h+=`</div>`;wrap.innerHTML=h;
+}
+function hNav(dir){
+  if(dir===-1){const[pY,pM]=hLM===0?[hLY-1,11]:[hLY,hLM-1];if(pY<hNow.getFullYear()||(pY===hNow.getFullYear()&&pM<hNow.getMonth()))return;hLY=pY;hLM=pM;}
+  else{[hLY,hLM]=hLM===11?[hLY+1,0]:[hLY,hLM+1];}
+  [hRY,hRM]=hROf(hLY,hLM);hFullRender();
+}
+
+// ── GUESTS ──
+let hG={rooms:1,adults:1,children:0};
+function toggleHGuests(){
+  hCloseCal();
+  const p=document.getElementById('hGuestPopup');
+  const w=document.getElementById('hGuestsField');
+  const open=p.classList.contains('show');
+  p.classList.toggle('show',!open);w.classList.toggle('open',!open);
+}
+function closeHGuests(e){
+  if(e)e.stopPropagation();
+  document.getElementById('hGuestPopup').classList.remove('show');
+  document.getElementById('hGuestsField').classList.remove('open');
+}
+function adjHGuest(e,t,d){
+  e.stopPropagation();
+  const min={rooms:1,adults:1,children:0},max={rooms:9,adults:20,children:10};
+  hG[t]=Math.min(max[t],Math.max(min[t],hG[t]+d));
+  document.getElementById('hgRooms').textContent=hG.rooms;
+  document.getElementById('hgAdults').textContent=hG.adults;
+  document.getElementById('hgChildren').textContent=hG.children;
+  let l=`${hG.rooms}间 · ${hG.adults}成人`;
+  if(hG.children>0)l+=` · ${hG.children}儿童`;
+  document.getElementById('hGuestLabel').textContent=l;
+}
+
+// ── ACCOUNT ──
+function toggleAccount(){document.getElementById('navAccount').classList.toggle('open')}
+
+// ── OUTSIDE CLICK ──
+document.addEventListener('click',e=>{
+  const hs=document.getElementById('heroSearch');
+  const acc=document.getElementById('navAccount');
+  if(hs&&!hs.contains(e.target)){hCloseCal();closeHGuests(null);}
+  if(acc&&!acc.contains(e.target))acc.classList.remove('open');
+});
+
+// init
+hSync();hFullRender();
+</script>
+</body>
+</html>
