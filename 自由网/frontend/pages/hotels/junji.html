@@ -2985,7 +2985,7 @@
   <style>
     .ai-fab {
       position: fixed;
-      bottom: 24px;
+      bottaom: 24px;
       right: 24px;
       z-index: 9998;
       width: 56px;
@@ -3441,7 +3441,7 @@
       <div class="ai-header-left">
         <div>
           <div class="ai-header-title">自由网 AI 助手</div>
-          <div class="ai-header-sub">问问题 · 找酒店 · 规划行程</div>
+          <div class="ai-header-sub">问问题 · 比较酒店 · 帮你订房</div>
         </div>
       </div>
       <div class="ai-header-actions">
@@ -3484,7 +3484,7 @@
     // ── 初始化状态 ──
     const aiState = {
       open: false,
-      mode: 'service',
+      mode: 'service',  // 统一模式，不再区分
       loading: false,
     };
 
@@ -3517,14 +3517,14 @@
 
     // ── 快捷问题 ──
     const aiSuggestionSets = {
-      service: ['自由网和携程有什么区别？', '会员年费多少？', '如何入驻自由网？'],
-      advisor: ['威海哪家酒店海景最好？', '推荐情侣浪漫酒店', '帮我选一个房间', '威海3天怎么玩？'],
+      service: ['威海三家酒店哪家性价比最高？', '帮我订今晚威海的酒店', '情侣出行推荐哪家？', '自由网和携程有什么区别？'],
+      advisor: ['威海三家酒店哪家性价比最高？', '帮我订今晚威海的酒店', '情侣出行推荐哪家？', '自由网和携程有什么区别？'],
     };
 
     // ── 默认欢迎语 ──
     const aiWelcomeMsg = {
-      service: '你好！我是自由网客服助手，关于会员、订单、酒店有任何问题都可以问我。',
-      advisor: '你好！我是你的旅行顾问，告诉我你想去哪、什么时候、和谁一起，我帮你推荐酒店和行程。也可以告诉我你想订哪家酒店，我帮你选好房型直接跳转预订。',
+      service: '你好！我是自由网客服 👋\n\n可以问我：\n· 自由网和携程有什么区别？\n· 会员年费多少？怎么加入？\n· 酒店怎么入驻自由网？\n\n想订酒店的话，切换到右边「顾问·帮你订」👉',
+      advisor: '你好！我是你的专属预订顾问 🗺️\n\n告诉我你的需求，我帮你选好酒店和房型，一键跳转预订：\n\n比如说：\n· 「帮我订6月20号东山宾馆，2个大人」\n· 「情侣出行推荐哪家？预算400以内」\n· 「威海3天行程怎么安排？」',
     };
 
     // ── 渲染消息列表 ──
@@ -3819,6 +3819,8 @@
       }
     })();
   </script>
+
+
 
 
 </body>
