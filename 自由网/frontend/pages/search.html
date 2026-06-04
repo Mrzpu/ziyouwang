@@ -2405,9 +2405,9 @@
     };
   </script>
   <!-- ═══════════════════════════════════════════
-     自由网 AI 浮窗助手
-     使用方法：把这段代码粘贴到 index.html、search.html、
-     hotels/junji.html 等所有页面的 </body> 之前
+     自由网 AI 浮窗助手 v2
+     新增：跨页面记忆 + 跨模式记忆 + AI帮选房型
+     粘贴到每个页面的 </body> 之前
 ═══════════════════════════════════════════ -->
 
   <style>
@@ -2436,10 +2436,6 @@
       box-shadow: 0 10px 32px rgba(26, 107, 82, .45)
     }
 
-    .ai-fab.open {
-      transform: rotate(90deg)
-    }
-
     .ai-fab-badge {
       position: absolute;
       top: -2px;
@@ -2449,16 +2445,19 @@
       border-radius: 50%;
       background: #e84040;
       border: 2px solid #fff;
+      display: none;
     }
 
-    /* chat panel */
+    .ai-fab-badge.show {
+      display: block
+    }
+
     .ai-panel {
       position: fixed;
       bottom: 96px;
       right: 24px;
       z-index: 9999;
       width: 380px;
-      height: 560px;
       max-height: 75vh;
       background: #fff;
       border-radius: 16px;
@@ -2480,12 +2479,19 @@
     }
 
     .ai-header {
-      padding: 16px 20px;
+      padding: 14px 18px;
       background: linear-gradient(135deg, #1a6b52, #0f4a37);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .ai-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px
     }
 
     .ai-header-title {
@@ -2496,7 +2502,31 @@
     .ai-header-sub {
       font-size: 11px;
       opacity: .85;
-      margin-top: 2px
+      margin-top: 1px
+    }
+
+    .ai-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .ai-clear-btn {
+      background: rgba(255, 255, 255, .15);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      opacity: .85;
+      transition: opacity .15s;
+      font-family: inherit;
+    }
+
+    .ai-clear-btn:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, .25)
     }
 
     .ai-close {
@@ -2513,17 +2543,17 @@
       opacity: 1
     }
 
-    /* mode switcher */
     .ai-tabs {
       display: flex;
-      padding: 8px 12px 0;
+      padding: 0 12px;
       background: #f6f7f8;
       border-bottom: 1px solid #e8e9eb;
+      flex-shrink: 0;
     }
 
     .ai-tab {
       flex: 1;
-      padding: 8px;
+      padding: 10px 8px;
       background: none;
       border: none;
       cursor: pointer;
@@ -2540,31 +2570,32 @@
       font-weight: 500
     }
 
-    /* messages area */
     .ai-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       background: #fafafa;
+      min-height: 200px;
+      max-height: calc(75vh - 200px);
     }
 
     .ai-msg {
-      max-width: 85%;
-      padding: 10px 14px;
+      max-width: 86%;
+      padding: 10px 13px;
       border-radius: 12px;
       font-size: 13.5px;
       line-height: 1.6;
-      word-break: break-word
+      word-break: break-word;
     }
 
     .ai-msg.user {
       align-self: flex-end;
       background: #1a6b52;
       color: #fff;
-      border-bottom-right-radius: 4px
+      border-bottom-right-radius: 4px;
     }
 
     .ai-msg.assistant {
@@ -2572,15 +2603,14 @@
       background: #fff;
       color: #222;
       border: 1px solid #e8e9eb;
-      border-bottom-left-radius: 4px
+      border-bottom-left-radius: 4px;
     }
 
     .ai-msg.loading {
       align-self: flex-start;
       background: #fff;
-      color: #999;
       border: 1px solid #e8e9eb;
-      font-style: italic
+      border-bottom-left-radius: 4px;
     }
 
     .ai-msg.error {
@@ -2588,21 +2618,104 @@
       background: #fff5f5;
       color: #c54040;
       font-size: 12px;
-      padding: 6px 12px
+      padding: 6px 12px;
+    }
+
+    /* 房型选择卡片 */
+    .ai-booking-card {
+      align-self: flex-start;
+      width: 100%;
+      max-width: 100%;
+      background: #fff;
+      border: 1.5px solid #1a6b52;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+    }
+
+    .ai-booking-card-title {
+      font-weight: 500;
+      color: #1a6b52;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .ai-booking-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+    }
+
+    .ai-booking-row:last-of-type {
+      border-bottom: none
+    }
+
+    .ai-booking-row label {
+      color: #888;
+      font-size: 12px;
+      min-width: 60px
+    }
+
+    .ai-booking-row span {
+      font-weight: 500
+    }
+
+    .ai-booking-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px
+    }
+
+    .ai-booking-confirm {
+      flex: 1;
+      background: #1a6b52;
+      color: #fff;
+      border: none;
+      padding: 9px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .ai-booking-confirm:hover {
+      background: #0f4a37
+    }
+
+    .ai-booking-modify {
+      background: #f0f0f0;
+      color: #555;
+      border: none;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .ai-booking-modify:hover {
+      background: #e0e0e0
     }
 
     .ai-typing {
       display: inline-flex;
       gap: 3px;
-      align-items: center
+      align-items: center;
+      padding: 2px 0
     }
 
     .ai-typing span {
       width: 6px;
       height: 6px;
-      background: #999;
+      background: #bbb;
       border-radius: 50%;
-      animation: aiBounce 1.2s infinite
+      animation: aiBounce 1.2s infinite;
     }
 
     .ai-typing span:nth-child(2) {
@@ -2628,13 +2741,13 @@
       }
     }
 
-    /* suggestions */
     .ai-suggestions {
-      padding: 10px 16px 0;
+      padding: 8px 12px 4px;
       background: #fafafa;
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      flex-shrink: 0;
     }
 
     .ai-sug {
@@ -2647,6 +2760,7 @@
       border-radius: 20px;
       cursor: pointer;
       transition: all .15s;
+      white-space: nowrap;
     }
 
     .ai-sug:hover {
@@ -2655,21 +2769,21 @@
       background: #e8f4ef
     }
 
-    /* input area */
     .ai-input-bar {
-      padding: 12px 14px;
+      padding: 10px 12px;
       background: #fff;
       border-top: 1px solid #e8e9eb;
       display: flex;
       gap: 8px;
       align-items: flex-end;
+      flex-shrink: 0;
     }
 
     .ai-input {
       flex: 1;
       border: 1px solid #d8dadd;
       border-radius: 20px;
-      padding: 8px 14px;
+      padding: 8px 13px;
       font-family: inherit;
       font-size: 13px;
       resize: none;
@@ -2677,10 +2791,12 @@
       max-height: 80px;
       line-height: 1.4;
       transition: border-color .2s;
+      background: #fafafa;
     }
 
     .ai-input:focus {
-      border-color: #1a6b52
+      border-color: #1a6b52;
+      background: #fff
     }
 
     .ai-send {
@@ -2708,23 +2824,30 @@
     }
 
     .ai-send svg {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       fill: none;
       stroke: currentColor;
       stroke-width: 2.5;
       stroke-linecap: round;
-      stroke-linejoin: round
+      stroke-linejoin: round;
     }
 
-    /* mobile */
+    .ai-memory-indicator {
+      text-align: center;
+      font-size: 10px;
+      color: #aaa;
+      padding: 4px 0 2px;
+      background: #fafafa;
+      flex-shrink: 0;
+    }
+
     @media(max-width:520px) {
       .ai-panel {
         right: 12px;
         left: 12px;
         width: auto;
-        bottom: 88px;
-        height: 70vh
+        bottom: 88px
       }
 
       .ai-fab {
@@ -2737,17 +2860,22 @@
   <!-- 浮窗按钮 -->
   <button class="ai-fab" id="aiFab" onclick="aiToggle()" title="AI 助手">
     <span id="aiFabIcon">💬</span>
-    <span class="ai-fab-badge"></span>
+    <span class="ai-fab-badge" id="aiFabBadge"></span>
   </button>
 
   <!-- 对话面板 -->
   <div class="ai-panel" id="aiPanel">
     <div class="ai-header">
-      <div>
-        <div class="ai-header-title">自由网 AI 助手</div>
-        <div class="ai-header-sub">问问题 · 找酒店 · 规划行程</div>
+      <div class="ai-header-left">
+        <div>
+          <div class="ai-header-title">自由网 AI 助手</div>
+          <div class="ai-header-sub">问问题 · 找酒店 · 规划行程</div>
+        </div>
       </div>
-      <button class="ai-close" onclick="aiToggle()">✕</button>
+      <div class="ai-header-actions">
+        <button class="ai-clear-btn" onclick="aiClearHistory()">清除记录</button>
+        <button class="ai-close" onclick="aiToggle()">✕</button>
+      </div>
     </div>
 
     <div class="ai-tabs">
@@ -2755,18 +2883,11 @@
       <button class="ai-tab" data-mode="advisor" onclick="aiSwitchMode('advisor')">🗺️ 旅行顾问</button>
     </div>
 
-    <div class="ai-messages" id="aiMessages">
-      <div class="ai-msg assistant" id="aiWelcome">
-        你好！我是自由网 AI 助手。
-        <br>有什么可以帮你的吗？
-      </div>
-    </div>
+    <div class="ai-messages" id="aiMessages"></div>
 
-    <div class="ai-suggestions" id="aiSuggestions">
-      <button class="ai-sug" onclick="aiAskQuick('自由网和携程有什么区别？')">和携程有什么区别？</button>
-      <button class="ai-sug" onclick="aiAskQuick('会员年费多少钱？')">会员费多少？</button>
-      <button class="ai-sug" onclick="aiAskQuick('威海哪家酒店海景最好？')">威海哪家海景最好？</button>
-    </div>
+    <div class="ai-memory-indicator" id="aiMemoryIndicator"></div>
+
+    <div class="ai-suggestions" id="aiSuggestions"></div>
 
     <div class="ai-input-bar">
       <textarea class="ai-input" id="aiInput" rows="1" placeholder="输入问题，按 Enter 发送..." onkeydown="aiKeyDown(event)"
@@ -2781,65 +2902,182 @@
   </div>
 
   <script>
-    // ════════════════════════════════════════
-    // 自由网 AI 助手 - 前端逻辑
-    // ════════════════════════════════════════
+    // ════════════════════════════════════════════════════
+    // 自由网 AI 助手 v2 — 跨页面记忆 + AI辅助预订
+    // ════════════════════════════════════════════════════
+
+    const AI_STORAGE_KEY = 'zyw_ai_v2';
+    const AI_MAX_HISTORY = 30; // 最多保留30条消息（防止token过多）
+
+    // ── 初始化状态 ──
     const aiState = {
       open: false,
       mode: 'service',
-      messages: [],    // 对话历史
       loading: false,
     };
 
+    // ── 从 localStorage 读取历史记录 ──
+    function aiLoadHistory() {
+      try {
+        const saved = localStorage.getItem(AI_STORAGE_KEY);
+        if (saved) {
+          const data = JSON.parse(saved);
+          return {
+            service: data.service || [],
+            advisor: data.advisor || [],
+          };
+        }
+      } catch (e) { }
+      return { service: [], advisor: [] };
+    }
+
+    // ── 保存历史记录到 localStorage ──
+    function aiSaveHistory(history) {
+      try {
+        // 每个模式最多保留最近30条
+        if (history.service.length > AI_MAX_HISTORY)
+          history.service = history.service.slice(-AI_MAX_HISTORY);
+        if (history.advisor.length > AI_MAX_HISTORY)
+          history.advisor = history.advisor.slice(-AI_MAX_HISTORY);
+        localStorage.setItem(AI_STORAGE_KEY, JSON.stringify(history));
+      } catch (e) { }
+    }
+
+    // ── 快捷问题 ──
     const aiSuggestionSets = {
-      service: [
-        '自由网和携程有什么区别？',
-        '会员年费多少钱？',
-        '怎么取消订单？',
-        '酒店入驻怎么联系？'
-      ],
-      advisor: [
-        '威海哪家酒店海景最好？',
-        '推荐适合情侣的酒店',
-        '威海有什么好玩的？',
-        '威海3天行程怎么安排？'
-      ]
+      service: ['自由网和携程有什么区别？', '会员年费多少？', '如何入驻自由网？'],
+      advisor: ['威海哪家酒店海景最好？', '推荐情侣浪漫酒店', '帮我选一个房间', '威海3天怎么玩？'],
     };
 
-    function aiToggle() {
-      aiState.open = !aiState.open;
-      document.getElementById('aiPanel').classList.toggle('open', aiState.open);
-      document.getElementById('aiFab').classList.toggle('open', aiState.open);
-      document.getElementById('aiFabIcon').textContent = aiState.open ? '✕' : '💬';
-      if (aiState.open) {
-        setTimeout(() => document.getElementById('aiInput').focus(), 300);
+    // ── 默认欢迎语 ──
+    const aiWelcomeMsg = {
+      service: '你好！我是自由网客服助手，关于会员、订单、酒店有任何问题都可以问我。',
+      advisor: '你好！我是你的旅行顾问，告诉我你想去哪、什么时候、和谁一起，我帮你推荐酒店和行程。也可以告诉我你想订哪家酒店，我帮你选好房型直接跳转预订。',
+    };
+
+    // ── 渲染消息列表 ──
+    function aiRenderMessages() {
+      const history = aiLoadHistory();
+      const msgs = history[aiState.mode];
+      const container = document.getElementById('aiMessages');
+      container.innerHTML = '';
+
+      // 如果没有历史，显示欢迎语
+      if (msgs.length === 0) {
+        const div = document.createElement('div');
+        div.className = 'ai-msg assistant';
+        div.textContent = aiWelcomeMsg[aiState.mode];
+        container.appendChild(div);
+      } else {
+        msgs.forEach(m => {
+          if (m.role === 'booking_card') {
+            // 特殊的预订卡片消息
+            aiRenderBookingCard(m.data, container);
+          } else if (m.role === 'user' || m.role === 'assistant') {
+            const div = document.createElement('div');
+            div.className = 'ai-msg ' + m.role;
+            div.textContent = m.content;
+            container.appendChild(div);
+          }
+        });
+      }
+
+      container.scrollTop = container.scrollHeight;
+      aiUpdateMemoryIndicator(msgs.length);
+    }
+
+    // ── 更新记忆条数提示 ──
+    function aiUpdateMemoryIndicator(count) {
+      const el = document.getElementById('aiMemoryIndicator');
+      if (count > 0) {
+        el.textContent = `已记住 ${count} 条对话 · 跨页面保留`;
+      } else {
+        el.textContent = '';
       }
     }
 
+    // ── 渲染预订卡片 ──
+    function aiRenderBookingCard(data, container) {
+      const card = document.createElement('div');
+      card.className = 'ai-msg ai-booking-card';
+      card.innerHTML = `
+    <div class="ai-booking-card-title">📋 AI 为你选好了，确认一下？</div>
+    <div class="ai-booking-row"><label>酒店</label><span>${data.hotel || '-'}</span></div>
+    <div class="ai-booking-row"><label>房型</label><span>${data.room || '-'}</span></div>
+    <div class="ai-booking-row"><label>入住</label><span>${data.checkin || '-'}</span></div>
+    <div class="ai-booking-row"><label>退房</label><span>${data.checkout || '-'}</span></div>
+    <div class="ai-booking-row"><label>人数</label><span>${data.adults || 1} 成人${data.children ? ' · ' + data.children + ' 儿童' : ''}</span></div>
+    <div class="ai-booking-row"><label>价格</label><span style="color:#e84040;font-size:15px">¥${data.price || '-'}</span></div>
+    <div class="ai-booking-actions">
+      <button class="ai-booking-confirm" onclick="aiConfirmBooking(${JSON.stringify(data).replace(/"/g, '&quot;')})">✓ 确认，去预订</button>
+      <button class="ai-booking-modify" onclick="aiModifyBooking()">重新选择</button>
+    </div>
+  `;
+      container.appendChild(card);
+    }
+
+    // ── 切换模式（客服/旅行顾问） ──
     function aiSwitchMode(mode) {
       aiState.mode = mode;
       document.querySelectorAll('.ai-tab').forEach(t => {
         t.classList.toggle('active', t.dataset.mode === mode);
       });
-      // 切换模式时重置对话
-      aiState.messages = [];
-      const msgs = document.getElementById('aiMessages');
-      msgs.innerHTML = `<div class="ai-msg assistant">${mode === 'service'
-          ? '你好！我是自由网客服助手，关于会员、订单、酒店有任何问题都可以问我。'
-          : '你好！我是你的旅行顾问，告诉我你想去哪、什么时候、和谁一起，我帮你推荐最适合的酒店和行程。'
-        }</div>`;
-      // 更新快捷建议
-      const sug = document.getElementById('aiSuggestions');
-      sug.innerHTML = aiSuggestionSets[mode].map(q =>
-        `<button class="ai-sug" onclick="aiAskQuick('${q}')">${q}</button>`
-      ).join('');
+      // 切换模式时渲染对应历史，不清除
+      aiRenderMessages();
+      aiUpdateSuggestions();
     }
 
+    // ── 更新快捷问题 ──
+    function aiUpdateSuggestions() {
+      const history = aiLoadHistory();
+      const hasHistory = history[aiState.mode].length > 0;
+      const sug = document.getElementById('aiSuggestions');
+      // 有历史记录时不显示快捷问题（节省空间）
+      if (hasHistory) {
+        sug.innerHTML = '';
+        return;
+      }
+      sug.innerHTML = aiSuggestionSets[aiState.mode]
+        .map(q => `<button class="ai-sug" onclick="aiAskQuick('${q}')">${q}</button>`)
+        .join('');
+    }
+
+    // ── 开关浮窗 ──
+    function aiToggle() {
+      aiState.open = !aiState.open;
+      document.getElementById('aiPanel').classList.toggle('open', aiState.open);
+      document.getElementById('aiFabIcon').textContent = aiState.open ? '✕' : '💬';
+      if (aiState.open) {
+        aiRenderMessages();
+        aiUpdateSuggestions();
+        setTimeout(() => document.getElementById('aiInput').focus(), 300);
+        // 清除未读红点
+        document.getElementById('aiFabBadge').classList.remove('show');
+      }
+    }
+
+    // ── 清除当前模式历史 ──
+    function aiClearHistory() {
+      const history = aiLoadHistory();
+      history[aiState.mode] = [];
+      aiSaveHistory(history);
+      aiRenderMessages();
+      aiUpdateSuggestions();
+    }
+
+    // ── 快捷问题点击 ──
+    function aiAskQuick(q) {
+      document.getElementById('aiInput').value = q;
+      aiSend();
+    }
+
+    // ── 自适应高度 ──
     function aiAutoResize(el) {
       el.style.height = 'auto';
       el.style.height = Math.min(el.scrollHeight, 80) + 'px';
     }
 
+    // ── 回车发送 ──
     function aiKeyDown(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -2847,21 +3085,43 @@
       }
     }
 
-    function aiAskQuick(question) {
-      document.getElementById('aiInput').value = question;
-      aiSend();
+    // ── 添加消息到历史并渲染 ──
+    function aiAppendMessage(role, content, bookingData) {
+      const history = aiLoadHistory();
+      if (role === 'booking_card') {
+        history[aiState.mode].push({ role: 'booking_card', data: bookingData });
+      } else {
+        history[aiState.mode].push({ role, content });
+      }
+      aiSaveHistory(history);
+
+      const container = document.getElementById('aiMessages');
+      if (role === 'booking_card') {
+        aiRenderBookingCard(bookingData, container);
+      } else {
+        const div = document.createElement('div');
+        div.className = 'ai-msg ' + role;
+        div.textContent = content;
+        container.appendChild(div);
+      }
+      container.scrollTop = container.scrollHeight;
+      aiUpdateMemoryIndicator(history[aiState.mode].length);
+      aiUpdateSuggestions();
     }
 
-    function aiAppendMsg(role, content, extraClass) {
-      const msgs = document.getElementById('aiMessages');
-      const div = document.createElement('div');
-      div.className = `ai-msg ${role} ${extraClass || ''}`;
-      div.textContent = content;
-      msgs.appendChild(div);
-      msgs.scrollTop = msgs.scrollHeight;
-      return div;
+    // ── 解析AI回复是否包含预订意图 ──
+    function aiParseBookingIntent(reply) {
+      // 检测AI回复里是否有预订卡片标记 [BOOKING:...]
+      const match = reply.match(/\[BOOKING:(.*?)\]/s);
+      if (!match) return null;
+      try {
+        return JSON.parse(match[1]);
+      } catch (e) {
+        return null;
+      }
     }
 
+    // ── 发送消息 ──
     async function aiSend() {
       if (aiState.loading) return;
       const input = document.getElementById('aiInput');
@@ -2872,53 +3132,122 @@
       aiAutoResize(input);
 
       // 添加用户消息
-      aiAppendMsg('user', text);
-      aiState.messages.push({ role: 'user', content: text });
+      aiAppendMessage('user', text);
 
-      // 隐藏建议
-      document.getElementById('aiSuggestions').style.display = 'none';
-
-      // 显示加载中
       aiState.loading = true;
       document.getElementById('aiSend').disabled = true;
-      const loadingMsg = aiAppendMsg('assistant', '', 'loading');
-      loadingMsg.innerHTML = '<span class="ai-typing"><span></span><span></span><span></span></span>';
+
+      // 显示加载中
+      const container = document.getElementById('aiMessages');
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'ai-msg loading';
+      loadingDiv.innerHTML = '<span class="ai-typing"><span></span><span></span><span></span></span>';
+      container.appendChild(loadingDiv);
+      container.scrollTop = container.scrollHeight;
 
       try {
+        // 构建发送给API的消息历史（只发纯文字消息，不发booking卡片）
+        const history = aiLoadHistory();
+        const apiMessages = history[aiState.mode]
+          .filter(m => m.role === 'user' || m.role === 'assistant')
+          .map(m => ({ role: m.role, content: m.content }));
+
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            messages: aiState.messages,
-            mode: aiState.mode
-          })
+            messages: apiMessages,
+            mode: aiState.mode,
+          }),
         });
 
-        loadingMsg.remove();
+        loadingDiv.remove();
 
-        if (!response.ok) {
-          throw new Error('请求失败');
-        }
+        if (!response.ok) throw new Error('请求失败');
 
         const data = await response.json();
         if (data.error) {
-          aiAppendMsg('assistant', data.error, 'error');
-        } else {
-          const reply = data.reply || '抱歉，没有收到回复';
-          aiAppendMsg('assistant', reply);
-          aiState.messages.push({ role: 'assistant', content: reply });
+          aiAppendMessage('assistant', data.error);
+          return;
         }
+
+        const reply = data.reply || '抱歉，没有收到回复';
+
+        // 检测是否有预订意图
+        const bookingData = aiParseBookingIntent(reply);
+        if (bookingData) {
+          // 显示纯文字部分
+          const textPart = reply.replace(/\[BOOKING:.*?\]/s, '').trim();
+          if (textPart) aiAppendMessage('assistant', textPart);
+          // 显示预订卡片
+          aiAppendMessage('booking_card', null, bookingData);
+        } else {
+          aiAppendMessage('assistant', reply);
+        }
+
+        // 面板未打开时，显示红点提示有新消息
+        if (!aiState.open) {
+          document.getElementById('aiFabBadge').classList.add('show');
+        }
+
       } catch (err) {
-        loadingMsg.remove();
-        aiAppendMsg('assistant', '网络错误，请稍后再试', 'error');
-        console.error('AI chat error:', err);
+        loadingDiv.remove();
+        aiAppendMessage('assistant', '网络错误，请稍后再试');
+        console.error('AI error:', err);
       } finally {
         aiState.loading = false;
         document.getElementById('aiSend').disabled = false;
-        input.focus();
+        document.getElementById('aiInput').focus();
       }
     }
+
+    // ── 确认预订，跳转到酒店详情页 ──
+    function aiConfirmBooking(data) {
+      const hotelUrls = {
+        '君季': '/pages/hotels/junji.html',
+        '君季L': '/pages/hotels/junji.html',
+        '百纳瑞汀': '/pages/hotels/bainnasit.html',
+        '东山': '/pages/hotels/dongshan.html',
+        '东山宾馆': '/pages/hotels/dongshan.html',
+      };
+
+      let url = '/pages/search.html';
+      for (const [key, path] of Object.entries(hotelUrls)) {
+        if (data.hotel && data.hotel.includes(key)) {
+          url = path;
+          break;
+        }
+      }
+
+      // 拼接参数
+      const params = new URLSearchParams();
+      if (data.checkin) params.set('checkin', data.checkin);
+      if (data.checkout) params.set('checkout', data.checkout);
+      if (data.adults) params.set('adults', data.adults);
+      if (data.children) params.set('children', data.children);
+      if (data.room) params.set('room', data.room);
+
+      window.location.href = url + '?' + params.toString();
+    }
+
+    // ── 重新选择（继续对话）──
+    function aiModifyBooking() {
+      const input = document.getElementById('aiInput');
+      input.value = '我想修改一下，';
+      input.focus();
+    }
+
+    // ── 页面加载时初始化 ──
+    (function aiInit() {
+      // 检查是否有未读消息（面板关闭时有新消息）
+      const history = aiLoadHistory();
+      const total = history.service.length + history.advisor.length;
+      if (total > 0) {
+        // 有历史记录，不显示红点，但让用户知道有记忆
+      }
+    })();
   </script>
+
 
 </body>
 
