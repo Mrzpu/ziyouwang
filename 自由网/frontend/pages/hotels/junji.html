@@ -3382,6 +3382,25 @@
         bottom: 16px
       }
     }
+
+    .ai-msg.typing-cursor::after {
+      content: "▋";
+      animation: blink .7s infinite;
+      font-size: 12px;
+      opacity: .7
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: .7
+      }
+
+      50% {
+        opacity: 0
+      }
+    }
   </style>
 
   <button class="ai-fab" id="aiFab" onclick="aiToggle()" title="AI 助手">
@@ -3449,7 +3468,7 @@
         const d = document.createElement('div');
         d.className = 'ai-msg assistant';
         d.style.whiteSpace = 'pre-line';
-        d.textContent = AI_WELCOME;
+        d.textContent = aiStrip(AI_WELCOME);
         box.appendChild(d);
         document.getElementById('aiSugs').innerHTML = AI_SUGS.map(q =>
           `<button class="ai-sug" onclick="aiQuick('${q}')">${q}</button>`).join('');
@@ -3459,7 +3478,7 @@
           const d = document.createElement('div');
           d.className = 'ai-msg ' + m.role;
           d.style.whiteSpace = 'pre-line';
-          d.textContent = m.content;
+          d.textContent = m.role === 'assistant' ? aiStrip(m.content) : m.content;
           box.appendChild(d);
         });
         document.getElementById('aiSugs').innerHTML = '';
@@ -3488,6 +3507,37 @@
       box.appendChild(card);
     }
 
+    function aiStrip(text) {
+      return text
+        .replace(/#{1,6}\s*/g, '')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/\*(.*?)\*/g, '$1')
+        .replace(/`(.*?)`/g, '$1')
+        .replace(/^[-*]\s+/gm, '· ')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    function aiTypewriter(el, text, done) {
+      el.textContent = '';
+      el.classList.add('typing-cursor');
+      const chars = [...text];
+      let i = 0;
+      const speed = Math.max(8, Math.min(18, 1200 / chars.length));
+      function next() {
+        if (i >= chars.length) {
+          el.classList.remove('typing-cursor');
+          if (done) done();
+          return;
+        }
+        el.textContent += chars[i++];
+        const box = document.getElementById('aiMessages');
+        box.scrollTop = box.scrollHeight;
+        setTimeout(next, speed);
+      }
+      next();
+    }
+
     function aiAppend(role, content, bookingData) {
       const msgs = aiLoad();
       if (role === 'booking') {
@@ -3503,8 +3553,14 @@
         const d = document.createElement('div');
         d.className = 'ai-msg ' + role;
         d.style.whiteSpace = 'pre-line';
-        d.textContent = content;
-        box.appendChild(d);
+        if (role === 'assistant') {
+          const clean = aiStrip(content);
+          box.appendChild(d);
+          aiTypewriter(d, clean);
+        } else {
+          d.textContent = content;
+          box.appendChild(d);
+        }
       }
       box.scrollTop = box.scrollHeight;
       const mem = document.getElementById('aiMemBar');
@@ -3606,6 +3662,7 @@
       document.getElementById('aiInput').focus();
     }
   </script>
+
 
 
 
